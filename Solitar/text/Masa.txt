@@ -1,0 +1,1 @@
+Acest joc se poate juca pe orice masa patratica clasica/ custom intre 4 si 25 linii. La inceputul jocului dupa ce ati ales marimea mesei puteti modifica masa prin selectarea casutei nedorite iar aceasta va fi blocata pentru a face jocul mai interesant si mai greu.

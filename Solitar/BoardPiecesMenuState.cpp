@@ -1,14 +1,13 @@
-#include "BoardShapeMenuState.h"
+#include "BoardPiecesMenuState.h"
 
 #include "GameEngine.h"
 #include "Board.h"
 
 #include <SDL/SDL.h>
-#include "BoardPiecesMenuState.h"
 
-BoardShapeMenuState BoardShapeMenuState::mBoardShapeMenuState;
+BoardPiecesMenuState BoardPiecesMenuState::mBoardPiecesMenuState;
 
-void BoardShapeMenuState::Init()
+void BoardPiecesMenuState::Init()
 {
 	printf("BoardShapeMenuState Init\n");
 
@@ -19,9 +18,9 @@ void BoardShapeMenuState::Init()
 
 	SDL_Color color{ 255,255,255,255 };
 
-	infoText.loadFromRenderedText("Choose board shape:", color);
-	
-	mContinueButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Continue");
+	infoText.loadFromRenderedText("Select initial state (1 <= Nr. of board pieces < " + std::to_string(gBoardSize*gBoardSize) + ")", color);
+
+	mContinueButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Start game");
 	mBackButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Back");
 
 	mContinueButton.setPos(
@@ -46,7 +45,7 @@ void BoardShapeMenuState::Init()
 	);
 }
 
-void BoardShapeMenuState::Cleanup()
+void BoardPiecesMenuState::Cleanup()
 {
 	printf("BoardShapeMenuState Cleanup\n");
 
@@ -60,15 +59,15 @@ void BoardShapeMenuState::Cleanup()
 	inputTextTexture.free();
 }
 
-void BoardShapeMenuState::Pause()
+void BoardPiecesMenuState::Pause()
 {
 }
 
-void BoardShapeMenuState::Resume()
+void BoardPiecesMenuState::Resume()
 {
 }
 
-void BoardShapeMenuState::HandleEvents(GameEngine* game)
+void BoardPiecesMenuState::HandleEvents(GameEngine* game)
 {
 	SDL_Event event;
 
@@ -91,21 +90,21 @@ void BoardShapeMenuState::HandleEvents(GameEngine* game)
 
 	if (mContinueButton.clicked())
 	{
-		game->PushState(BoardPiecesMenuState::Instance());
+		//game->PushState();
 	}
 	if (mBackButton.clicked())
 	{
 		game->PopState();
 	}
 
-	gBoard.update(BoardMode::REMOVE);
+	gBoard.update(BoardMode::PLACE);
 }
 
-void BoardShapeMenuState::Update(GameEngine* game)
+void BoardPiecesMenuState::Update(GameEngine* game)
 {
 }
 
-void BoardShapeMenuState::Draw(GameEngine* game)
+void BoardPiecesMenuState::Draw(GameEngine* game)
 {
 	int h = game->getScreenHeight();
 	int w = game->getScreenWidth();
@@ -113,11 +112,14 @@ void BoardShapeMenuState::Draw(GameEngine* game)
 	SDL_Renderer* r = gRenderer;
 
 	infoText.render(5, 5, w - 10, 25);
-	
+
 	int x0 = w * 0.1;
 	int y0 = h * 0.1;
 
-	gBoard.draw(BoardMode::REMOVE);
+	gBoard.draw(BoardMode::PLACE);
+
+	gBoard.drawPieces();
+
 
 	mContinueButton.render();
 	mBackButton.render();

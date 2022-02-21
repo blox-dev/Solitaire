@@ -57,6 +57,8 @@ void GameEngine::Init(std::string windowName, int screenWidth, int screenHeight,
 		fatalError("SDW Window could not be created!");
 	}
 
+	SDL_SetWindowMinimumSize(mSDLWindow, 640, 480);
+
 	// set screen vars
 	mScreenHeight = screenHeight;
 	mScreenWidth = screenWidth;

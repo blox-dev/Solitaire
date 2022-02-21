@@ -150,6 +150,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoardPiecesMenuState.cpp" />
     <ClCompile Include="BoardShapeMenuState.cpp" />
     <ClCompile Include="BoardSizeMenuState.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -181,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardPiecesMenuState.h" />
     <ClInclude Include="BoardShapeMenuState.h" />
     <ClInclude Include="BoardSizeMenuState.h" />
     <ClInclude Include="Button.h" />

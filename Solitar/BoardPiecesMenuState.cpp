@@ -4,6 +4,7 @@
 #include "Board.h"
 
 #include <SDL/SDL.h>
+#include "PlayGameState.h"
 
 BoardPiecesMenuState BoardPiecesMenuState::mBoardPiecesMenuState;
 
@@ -29,6 +30,8 @@ void BoardPiecesMenuState::Init()
 		gScreenWidth * 0.15,
 		gScreenHeight * 0.1
 	);
+
+	mContinueButton.setBlocked(true);
 
 	mBackButton.setPos(
 		gScreenWidth * 0.05,
@@ -88,9 +91,15 @@ void BoardPiecesMenuState::HandleEvents(GameEngine* game)
 		}
 	}
 
+	if (gBoard.isValid())
+	{
+		mContinueButton.setBlocked(false);
+	}
+	else mContinueButton.setBlocked(true);
+
 	if (mContinueButton.clicked())
 	{
-		//game->PushState();
+		game->PushState(PlayGameState::Instance());
 	}
 	if (mBackButton.clicked())
 	{
@@ -117,8 +126,6 @@ void BoardPiecesMenuState::Draw(GameEngine* game)
 	int y0 = h * 0.1;
 
 	gBoard.draw(BoardMode::PLACE);
-
-	gBoard.drawPieces();
 
 
 	mContinueButton.render();

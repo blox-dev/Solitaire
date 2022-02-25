@@ -37,7 +37,7 @@ void BoardShapeMenuState::Init()
 		gScreenWidth * 0.15,
 		gScreenHeight * 0.1
 	);
-
+	
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
 		gScreenHeight * 0.1,

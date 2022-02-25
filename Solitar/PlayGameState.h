@@ -5,7 +5,7 @@
 #include "LTexture.h"
 #include "Button.h"
 
-class BoardSizeMenuState : public GameState
+class PlayGameState : public GameState
 {
 public:
 	void Init() override;
@@ -18,16 +18,18 @@ public:
 	void Update(GameEngine* game) override;
 	void Draw(GameEngine* game) override;
 
-	static BoardSizeMenuState* Instance() {
-		return &mBoardSizeMenuState;
+	static PlayGameState* Instance() {
+		return &mPlayGameState;
 	}
 
 protected:
-	BoardSizeMenuState() { }
+	PlayGameState() { }
 
 private:
 	// instance
-	static BoardSizeMenuState mBoardSizeMenuState;
+	static PlayGameState mPlayGameState;
+
+	int mPlayerTurn = 1;
 
 	// drawing stuff
 	LTexture mButton;
@@ -36,15 +38,16 @@ private:
 	LTexture mButtonBlocked;
 
 	Button mBackButton;
-	Button mContinueButton;
 
 	//text stuff
-	LTexture infoText;
-	LTexture nText;
+	LTexture mPlayer1Text;
+	LTexture mPlayer2Text;
+	LTexture mComputerText;
 
-	LTexture inputTextTexture;
+	LTexture mPlayer1WinText;
+	LTexture mPlayer2WinText;
+	LTexture mComputerWinText;
 
-	//TODO: just replace with slider
-	std::string inputText = "";
-	bool renderText = false;
+	LTexture mWinText;
 };
+

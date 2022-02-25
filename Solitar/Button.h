@@ -14,12 +14,17 @@ public:
 		LTexture* buttonTexture, LTexture* buttonPressedTexture, LTexture* buttonHighlightedTexture, 
 		std::string buttonText = " ", SDL_Color color = SDL_Color{ 255,255,255,255 }
 	);
-	
+
+	void setActive(bool active) { bActive = active; }
+	void setBlocked(bool blocked) { bBlocked = blocked; }
+
 	void render();
 	bool clicked();
 
 protected:
 	int x = 0, y = 0, bWidth = 0, bHeight = 0;
+	bool bActive = true;
+	bool bBlocked = false;
 
 	LTexture bText;
 	LTexture* bTexture = nullptr;

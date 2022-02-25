@@ -32,6 +32,9 @@ void BoardSizeMenuState::Init()
 		gScreenWidth * 0.15,
 		gScreenHeight * 0.1
 	);
+	
+	// blocked until the boardSize is in range
+	mContinueButton.setBlocked(true);
 
 	mBackButton.setPos(
 		gScreenWidth * 0.05,
@@ -39,6 +42,16 @@ void BoardSizeMenuState::Init()
 		gScreenWidth * 0.15,
 		gScreenHeight * 0.1
 	);
+
+	gBoard.setBoardSize(1);
+
+	gBoard.setPosition(
+		gScreenWidth * 0.1,
+		gScreenHeight * 0.1,
+		gScreenWidth * 0.8,
+		gScreenHeight * 0.8
+	);
+
 }
 
 void BoardSizeMenuState::Cleanup()
@@ -84,6 +97,12 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 				//remove last character
 				inputText.pop_back();
 				renderText = true;
+
+				if (inputText.empty())
+					mContinueButton.setBlocked(true);
+				else if (stoi(inputText) < MIN_BOARD_SIZE || stoi(inputText) > MAX_BOARD_SIZE)
+					mContinueButton.setBlocked(true);
+				else mContinueButton.setBlocked(false);
 			}
 			else if (event.key.keysym.sym >= SDLK_0 && event.key.keysym.sym <= SDLK_9)
 			{
@@ -92,7 +111,13 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 
 				if (stoi(inputText) > MAX_BOARD_SIZE)
 					inputText.pop_back();
-				
+
+				if (inputText.empty())
+					mContinueButton.setBlocked(true);
+				else if (stoi(inputText) >= MIN_BOARD_SIZE && stoi(inputText) <= MAX_BOARD_SIZE)
+					mContinueButton.setBlocked(false);
+				else mContinueButton.setBlocked(true);
+
 				renderText = true;
 			}
 			break;
@@ -104,17 +129,27 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 	}
 
 	if (renderText) {
+		// bad implementation probably
 		renderText = false;
-		if(inputText.empty())
+		if (inputText.empty())
 			inputTextTexture.loadFromRenderedText(" ", SDL_Color{255,255,255,255});
 		else
 			inputTextTexture.loadFromRenderedText(inputText, SDL_Color{ 255,255,255,255 });
+	
+		if (inputText.empty())
+			gBoardSize = 1;
+		else gBoardSize = stoi(inputText);
+
+		gBoard.setBoardSize(gBoardSize);
+
+		//gBoard.draw(BoardMode::EMPTY);
 	}
 
 	if (mContinueButton.clicked())
 	{
 		gBoardSize = stoi(inputText);
 		gBoard.setBoardSize(gBoardSize);
+		gBoard.reset();
 
 		game->PushState(BoardShapeMenuState::Instance());
 	}
@@ -132,26 +167,27 @@ void BoardSizeMenuState::Draw(GameEngine* game)
 {
 	int h = game->getScreenHeight();
 	int w = game->getScreenWidth();
-	SDL_Renderer* r = gRenderer;
-	
+	//SDL_Renderer* r = gRenderer;
+	//
 	infoText.render(5, 5, w-10, 25);
 	nText.render(5, 30, 25*2, 25);
 	inputTextTexture.render(50, 30, 25*inputText.length(), 25);
 
-	//Render red filled quad
-	SDL_Rect fillRect = { w / 4, h / 4, w / 2, h / 2 };
-	SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);
-	SDL_RenderFillRect(r, &fillRect);
+	////Render red filled quad
+	//SDL_Rect fillRect = { w / 4, h / 4, w / 2, h / 2 };
+	//SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);
+	//SDL_RenderFillRect(r, &fillRect);
 
-	//Render green outlined quad
-	SDL_Rect outlineRect = { w / 6, h / 6, w * 2 / 3, h * 2 / 3 };
-	SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0xFF);
-	SDL_RenderDrawRect(r, &outlineRect);
+	////Render green outlined quad
+	//SDL_Rect outlineRect = { w / 6, h / 6, w * 2 / 3, h * 2 / 3 };
+	//SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0xFF);
+	//SDL_RenderDrawRect(r, &outlineRect);
 
-	//Draw blue horizontal line
-	SDL_SetRenderDrawColor(r, 0x00, 0x00, 0xFF, 0xFF);
-	SDL_RenderDrawLine(r, 0, h / 2, w, h / 2);
+	////Draw blue horizontal line
+	//SDL_SetRenderDrawColor(r, 0x00, 0x00, 0xFF, 0xFF);
+	//SDL_RenderDrawLine(r, 0, h / 2, w, h / 2);
 
+	gBoard.draw(BoardMode::EMPTY);
 
 	mContinueButton.render();
 	mBackButton.render();

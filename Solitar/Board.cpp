@@ -3,6 +3,7 @@
 
 Board::Board()
 {
+	mCurrentPlayer = 0;
 	mBoardSize = 0;
 	for (int i = 0; i < MAX_BOARD_SIZE; ++i)
 		for (int j = 0; j < MAX_BOARD_SIZE; ++j)
@@ -20,7 +21,6 @@ void Board::draw(BoardMode mode)
 	SDL_SetRenderDrawColor(gRenderer, gBoardColor.r, gBoardColor.g, gBoardColor.b, gBoardColor.a);
 	SDL_RenderFillRect(gRenderer, &outlineRect);
 
-	// printf("draw\n");
 	//Draw white outline
 	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 	SDL_RenderDrawRect(gRenderer, &outlineRect);
@@ -61,6 +61,9 @@ void Board::draw(BoardMode mode)
 					SDL_RenderDrawLine(gRenderer, i + cellWidth / 5, j + cellHeight / 5, i + cellWidth * 0.8, j + cellHeight * 0.8);
 					SDL_RenderDrawLine(gRenderer, i + cellWidth * 0.8, j + cellHeight / 5, i + cellWidth / 5, j + cellHeight * 0.8);
 				}
+
+		drawPieces();
+
 		//reset drawing color 
 		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 
@@ -84,6 +87,9 @@ void Board::draw(BoardMode mode)
 					SDL_RenderDrawLine(gRenderer, i + cellWidth * 0.8, j + cellHeight / 5, i + cellWidth / 5, j + cellHeight * 0.8);
 				}
 			}
+
+		drawPieces();
+
 		//reset drawing color 
 		SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 
@@ -107,6 +113,8 @@ void Board::draw(BoardMode mode)
 				}
 			}
 
+		drawPieces();
+
 		if (isHighlight) {
 			drawHighlightedPieces();
 		}
@@ -116,8 +124,6 @@ void Board::draw(BoardMode mode)
 
 		break;
 	}
-
-	gBoard.drawPieces();
 
 	//background color
 	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
@@ -270,6 +276,8 @@ void Board::update(BoardMode mode)
 					isHighlight = false;
 					mScores[mCurrentPlayer] ++;
 
+					mUpdateScores = true;
+
 					clearHighLight();
 
 					makeMove(mSelectedPiece.x, mSelectedPiece.y, row, col);
@@ -348,6 +356,10 @@ void Board::empty()
 
 void Board::reset()
 {
+	mCurrentPlayer = 0;
+	mScores[0] = 0;
+	mScores[1] = 0;
+
 	for (int i = 0; i < mBoardSize; ++i)
 		for (int j = 0; j < mBoardSize; ++j)
 			mBoard[i][j] = 0;
@@ -441,14 +453,12 @@ void Board::makeMove(int startRow, int startCol, int destRow, int destCol)
 
 	if (difCol == 0 && abs(difRow) == 2)
 	{
-		printf("Same col\n");
 		mBoard[startRow][startCol] = 0;
 		mBoard[startRow + difRow / 2][startCol] = 0;
 		mBoard[startRow + difRow][startCol] = 1;
 	}
 	else if (abs(difCol) == 2 && difRow == 0)
 	{
-		printf("Same row");
 		mBoard[startRow][startCol] = 0;
 		mBoard[startRow][startCol + difCol / 2] = 0;
 		mBoard[startRow][startCol + difCol] = 1;

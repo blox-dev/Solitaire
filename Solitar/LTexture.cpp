@@ -91,6 +91,7 @@ bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor
         SDL_FreeSurface(textSurface);
     }
 
+    textLength = textureText.length();
     //Return success
     return mTexture != NULL;
 }

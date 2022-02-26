@@ -160,6 +160,7 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="InstructionsState.cpp" />
     <ClCompile Include="LTexture.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -170,6 +171,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="PlayGameState.cpp" />
     <ClCompile Include="Source.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -192,6 +194,7 @@
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="InstructionsState.h" />
     <ClInclude Include="LTexture.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -199,6 +202,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="MenuState.h" />
+    <ClInclude Include="PlayGameState.h" />
     <ClInclude Include="Window.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>

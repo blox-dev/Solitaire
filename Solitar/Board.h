@@ -1,5 +1,5 @@
 #pragma once
-#include "GameEngine.h";
+#include "GameEngine.h"
 
 // looks like a circle
 constexpr int TRIANGLES_PER_CIRCLE = 20;
@@ -49,9 +49,19 @@ public:
 	int getPlayer1Score() { return mScores[0]; }
 	int getPlayer2Score() { return mScores[1]; }
 
-private:
+	//returns true if the scores need to be updated
+	bool updateScores() { return mUpdateScores; }
 
+	void setUpdateScores(bool updateScores) { mUpdateScores = updateScores; }
+	
+	bool isComputerPlaying() { return mIsComputerPlaying; }
+	void setComputerPlaying(bool isComputerPlaying) { mIsComputerPlaying = isComputerPlaying; }
+private:
+	
+	bool mIsComputerPlaying = false;
+	
 	int mScores[2] = { 0,0 };
+	bool mUpdateScores = false;
 	int mCurrentPlayer = 0;
 	glm::ivec2 mSelectedPiece;
 

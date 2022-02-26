@@ -43,6 +43,8 @@ public:
     int tWidth;
     int tHeight;
 
+    int getTextLength() { return textLength; }
+
     //Makes sure the context is initialized, called by the GameEngine.init()
     //static void setSharedContext(Context* sharedContext) { mSharedContext = sharedContext; };
 
@@ -50,6 +52,7 @@ protected:
     //static Context* mSharedContext;
 
 private:
+    int textLength = 0;
     //The actual hardware texture
     SDL_Texture* mTexture;
 };

@@ -23,9 +23,12 @@ void PlayGameState::Init()
 	mPlayer2Text.loadFromRenderedText("It's player 2's turn", color);
 	mComputerText.loadFromRenderedText("It's the computer's turn", color);
 
+	mScoreText.loadFromRenderedText("P1 0 : 0 P2", color);
+
 	mPlayer1WinText.loadFromRenderedText("Player 1 wins!", color);
-	mPlayer1WinText.loadFromRenderedText("Player 2 wins!", color);
+	mPlayer2WinText.loadFromRenderedText("Player 2 wins!", color);
 	mComputerWinText.loadFromRenderedText("The computer wins!", color);
+	mDrawText.loadFromRenderedText("It's a draw!", color);
 
 	mBackButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Main menu");
 
@@ -91,15 +94,17 @@ void PlayGameState::HandleEvents(GameEngine* game)
 		}
 	}
 
+	//if scores need to be updated
+	if (gBoard.updateScores()) {
+		int score1 = gBoard.getPlayer1Score();
+		int score2 = gBoard.getPlayer2Score();
+		mScoreText.loadFromRenderedText("P1 " + std::to_string(score1) + " : " + std::to_string(score2) + " P2", SDL_Color{ 255,255,255,255 });
+		gBoard.setUpdateScores(false);
+	}
+
 	if (mBackButton.clicked())
 	{
 		game->ChangeState(MenuState::Instance());
-	}
-
-	if (gBoard.hasNoMovesLeft())
-	{
-		//TODO: only do this once
-		mBackButton.setActive(true);
 	}
 
 	gBoard.update(BoardMode::PLAY);
@@ -116,32 +121,92 @@ void PlayGameState::Draw(GameEngine* game)
 
 	SDL_Renderer* r = gRenderer;
 
-	if(gBoard.getCurrentPlayer() == 0)
-		mPlayer1Text.render(
-			5,
-			5,
-			gScreenWidth * 0.4,
-			gScreenHeight * 0.05
-		);
+	if (!gBoard.hasNoMovesLeft())
+	{
+		//game is not over
+		if (gBoard.getCurrentPlayer() == 0)
+			mPlayer1Text.render(
+				5,
+				5,
+				gScreenWidth * 0.4,
+				gScreenHeight * 0.05
+			);
 
-	if(gBoard.getCurrentPlayer() == 1)
-		mPlayer2Text.render(
-			5,
-			5,
-			gScreenWidth * 0.4,
-			gScreenHeight * 0.05
-		);
+		if (gBoard.getCurrentPlayer() == 1)
+		{
+			if (gBoard.isComputerPlaying())
+			{
+				mComputerText.render(
+					5,
+					5,
+					gScreenWidth * 0.4,
+					gScreenHeight * 0.05
+				);
+			}
+			else {
+				mPlayer2Text.render(
+					5,
+					5,
+					gScreenWidth * 0.4,
+					gScreenHeight * 0.05
+				);
+			}
+		}
+	}
+	else {
+		//game is over
+		//TODO: Only do this once
+		mBackButton.setActive(true);
 
-	if(false)
-		mComputerText.render(
-			5,
-			5,
-			gScreenWidth * 0.4,
-			gScreenHeight * 0.05
-		);
+		int score1 = gBoard.getPlayer1Score();
+		int score2 = gBoard.getPlayer2Score();
 
-	int x0 = w * 0.1;
-	int y0 = h * 0.1;
+		if (score1 > score2)
+		{
+			mPlayer1WinText.render(
+				5,
+				5,
+				gScreenWidth * 0.4,
+				gScreenHeight * 0.05
+			);
+		}
+		else if (score2 > score1)
+		{
+			if (gBoard.isComputerPlaying())
+			{
+				mComputerWinText.render(
+					5,
+					5,
+					gScreenWidth * 0.4,
+					gScreenHeight * 0.05
+				);
+			}
+			else {
+				mPlayer2WinText.render(
+					5,
+					5,
+					gScreenWidth * 0.4,
+					gScreenHeight * 0.05
+				);
+			}
+		}
+		else {
+			mDrawText.render(
+				5,
+				5,
+				gScreenWidth * 0.4,
+				gScreenHeight * 0.05
+			);
+		}
+	}
+
+	//score text
+	mScoreText.render(
+		gScreenWidth * 0.5,
+		5,
+		gScreenWidth * 0.15,
+		gScreenHeight * 0.05
+	);
 
 	gBoard.draw(BoardMode::PLAY);
 

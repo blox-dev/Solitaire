@@ -1,11 +1,12 @@
 #pragma once
+#include <string.h>
 
 #include "GameEngine.h"
 #include "GameState.h"
 #include "LTexture.h"
 #include "Button.h"
 
-class PlayGameState : public GameState
+class InstructionsState : public GameState
 {
 public:
 	void Init() override;
@@ -18,38 +19,34 @@ public:
 	void Update(GameEngine* game) override;
 	void Draw(GameEngine* game) override;
 
-	static PlayGameState* Instance() {
-		return &mPlayGameState;
+	static InstructionsState* Instance() {
+		return &mInstructionsState;
 	}
 
 protected:
-	PlayGameState() { }
+	InstructionsState() { }
 
 private:
 	// instance
-	static PlayGameState mPlayGameState;
-
-	int mPlayerTurn = 1;
+	static InstructionsState mInstructionsState;
 
 	// drawing stuff
 	LTexture mButton;
 	LTexture mButtonPressed;
 	LTexture mButtonHighlighted;
-	LTexture mButtonBlocked;
+	//LTexture mBlockedButton;
 
+	int TEXT_HEIGHT;
+	int TEXT_WIDTH;
+
+	const int ROW_PADDING = 2;
+
+	//anything more than this looks bad
+	LTexture textTexture[20];
+	int textureNum;
+
+	std::string instructionsText;
+	
 	Button mBackButton;
-
-	//text stuff
-	LTexture mPlayer1Text;
-	LTexture mPlayer2Text;
-	LTexture mComputerText;
-
-	LTexture mDrawText;
-	LTexture mPlayer1WinText;
-	LTexture mPlayer2WinText;
-	LTexture mComputerWinText;
-
-	LTexture mScoreText;
-	LTexture mWinText;
 };
 

@@ -206,7 +206,7 @@ void GameEngine::Draw()
 	states.back()->Draw(this);
 
 	SDL_RenderPresent(mRenderer);
-	
+
 	//swap the buffers
 	swapBuffer();
 }

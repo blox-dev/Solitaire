@@ -200,8 +200,8 @@ void GameEngine::Update()
 
 void GameEngine::Draw()
 {
+	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(mRenderer);
-	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0);
 	// let the state draw the screen
 	states.back()->Draw(this);
 

@@ -43,4 +43,3 @@ private:
 	Button mSettingsButton;
 	Button mExitButton;
 };
-

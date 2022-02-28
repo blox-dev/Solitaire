@@ -2,10 +2,11 @@
 
 #include "GameEngine.h"
 #include "BoardSizeMenuState.h"
+#include "InstructionsState.h"
+#include "SettingsState.h"
 #include "Board.h"
 
 #include <SDL/SDL.h>
-#include "InstructionsState.h"
 
 MenuState MenuState::mMenuState;
 
@@ -153,6 +154,7 @@ void MenuState::HandleEvents(GameEngine* game)
 	if (mSettingsButton.clicked())
 	{
 		printf("Clicked settings\n");
+		game->PushState(SettingsState::Instance());
 	}
 
 	if (mExitButton.clicked())

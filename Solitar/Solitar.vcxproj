@@ -172,6 +172,7 @@
     </ClCompile>
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="PlayGameState.cpp" />
+    <ClCompile Include="SettingsState.cpp" />
     <ClCompile Include="Source.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -203,6 +204,7 @@
     </ClInclude>
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="PlayGameState.h" />
+    <ClInclude Include="SettingsState.h" />
     <ClInclude Include="Window.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>

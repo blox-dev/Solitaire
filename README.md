@@ -1,2 +1,2 @@
 # Solitaire
-Reimplementation of Solitaire in C++
+Implementation of Solitaire in C++ using SDL2.

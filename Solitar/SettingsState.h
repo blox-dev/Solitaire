@@ -32,22 +32,6 @@ private:
 	// instance
 	static SettingsState mSettingsState;
 
-	// drawing stuff
-	LTexture mButton;
-	LTexture mButtonPressed;
-	LTexture mButtonHighlighted;
-	//LTexture mBlockedButton;
-
-	//left arrow
-	LTexture mLeftArrowButtonTexture;
-	LTexture mLeftArrowButtonPressedTexture;
-	LTexture mLeftArrowButtonHighlightedTexture;
-
-	//right arrow
-	LTexture mRightArrowButtonTexture;
-	LTexture mRightArrowButtonPressedTexture;
-	LTexture mRightArrowButtonHighlightedTexture;
-
 	//buttons
 	Button mBoardColorLeftArrow;
 	Button mBoardColorRightArrow;

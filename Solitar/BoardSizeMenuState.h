@@ -29,11 +29,7 @@ private:
 	// instance
 	static BoardSizeMenuState mBoardSizeMenuState;
 
-	// drawing stuff
-	LTexture mButton;
-	LTexture mButtonPressed;
-	LTexture mButtonHighlighted;
-	LTexture mButtonBlocked;
+	// buttons
 
 	Button mBackButton;
 	Button mContinueButton;

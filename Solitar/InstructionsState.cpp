@@ -5,7 +5,6 @@
 #include "Board.h"
 
 #include <SDL/SDL.h>
-#include <iostream>
 
 InstructionsState InstructionsState::mInstructionsState;
 
@@ -15,14 +14,15 @@ void InstructionsState::Init()
 
 	textureNum = 0;
 
-	//buttons
-	mButton.loadFromFile("textures/Button.png");
-	mButtonHighlighted.loadFromFile("textures/ButtonHighlighted.png");
-	mButtonPressed.loadFromFile("textures/ButtonPressed.png");
-
 	SDL_Color color{ 255,255,255,255 };
 
-	mBackButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Back");
+	mBackButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Back"
+	);
 
 	mBackButton.setPos(
 		gScreenWidth * 0.05,
@@ -57,8 +57,6 @@ void InstructionsState::Init()
 		}
 		else
 		{
-			std::cout << current_string.length() << std::endl;
-
 			textTexture[textureNum++].loadFromRenderedText(current_string, color);
 
 			current_string = instructionsText.substr(last, next - last) + " ";
@@ -72,9 +70,6 @@ void InstructionsState::Init()
 void InstructionsState::Cleanup()
 {
 	printf("InstructionsState Cleanup\n");
-	mButton.free();
-	mButtonPressed.free();
-	mButtonHighlighted.free();
 }
 
 void InstructionsState::Pause()
@@ -145,9 +140,8 @@ void InstructionsState::Draw(GameEngine* game)
 	//draw the instructions text
 	for (int i = 0; i < textureNum; ++i)
 	{
-		textTexture[i].render(5, 5 + i * (TEXT_HEIGHT + ROW_PADDING), TEXT_WIDTH * textTexture[i].getTextLength(), TEXT_HEIGHT);
+		textTexture[i].render(5, 5 + i * (TEXT_HEIGHT + ROW_PADDING), 1.0f);
 	}
 
 	mBackButton.render();
-
 }

@@ -11,23 +11,24 @@
 
 #include <iostream>
 
-//Context GameEngine::mContext;
 int gScreenWidth;
 int gScreenHeight;
 int gBoardSize;
 
 // the board
 Board gBoard = Board();
+CommonTextures gCommonTextures;
 
 SDL_Color gBoardColor;
 SDL_Color gPieceColor;
 InputManager gInputManager;
+
 SDL_Renderer* gRenderer = nullptr;
 TTF_Font* gRobotoFont = nullptr;
 
 void GameEngine::Init(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags)
 {
-	printf("CGameEngine Init\n");
+	printf("GameEngine Init\n");
 
 	mRunning = true;
 
@@ -69,8 +70,9 @@ void GameEngine::Init(std::string windowName, int screenWidth, int screenHeight,
 		fatalError("Renderer could not be created! SDL Error\n");
 	}
 
-	//Initialize renderer color
-	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0);
+	//Initialize renderer color and set it
+	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
+	SDL_RenderPresent(mRenderer);
 
 	//Initialize PNG loading
 	int imgFlags = IMG_INIT_PNG;
@@ -92,9 +94,6 @@ void GameEngine::Init(std::string windowName, int screenWidth, int screenHeight,
 		fatalError("Font couldn't be opened");
 
 	// setting context values
-
-	//printf("%f",mInputManager.getMouseCoords().x);
-
 	gRenderer = mRenderer;
 	gRobotoFont = mRobotoFont;
 	//gInputManager = &mInputManager;
@@ -105,15 +104,37 @@ void GameEngine::Init(std::string windowName, int screenWidth, int screenHeight,
 	gPieceColor = SDL_Color{ 255,255,255,255 };
 
 
-	//LTexture::setSharedContext(&mContext);
-	//GameState::setSharedContext(&mContext);
+	//set common resources -- bad implementation on the heap instead of stack
 
-	// get the screen surface
-	// m_screenSurface = SDL_GetWindowSurface(m_SDLWindow);
+	gCommonTextures.button = new LTexture();
+	gCommonTextures.button->loadFromFile("textures/button.png");
 
-	//if (m_screenSurface == nullptr) {
-	//	fatalError("Screen surface could not be created!");
-	//}
+	gCommonTextures.buttonPressed = new LTexture();
+	gCommonTextures.buttonPressed->loadFromFile("textures/buttonPressed.png");
+
+	gCommonTextures.buttonHighlighted = new LTexture();
+	gCommonTextures.buttonHighlighted->loadFromFile("textures/buttonHighlighted.png");
+
+	gCommonTextures.buttonBlocked = new LTexture();
+	gCommonTextures.buttonBlocked->loadFromFile("textures/buttonBlocked.png");
+
+	gCommonTextures.leftArrow = new LTexture();
+	gCommonTextures.leftArrow->loadFromFile("textures/leftArrow.png");
+
+	gCommonTextures.leftArrowHighlighted = new LTexture();
+	gCommonTextures.leftArrowHighlighted->loadFromFile("textures/leftArrowHighlighted.png");
+
+	gCommonTextures.leftArrowPressed = new LTexture();
+	gCommonTextures.leftArrowPressed->loadFromFile("textures/leftArrowPressed.png");
+
+	gCommonTextures.rightArrow = new LTexture();
+	gCommonTextures.rightArrow->loadFromFile("textures/rightArrow.png");
+
+	gCommonTextures.rightArrowHighlighted = new LTexture();
+	gCommonTextures.rightArrowHighlighted->loadFromFile("textures/rightArrowHighlighted.png");
+
+	gCommonTextures.rightArrowPressed = new LTexture();
+	gCommonTextures.rightArrowPressed->loadFromFile("textures/rightArrowPressed.png");
 }
 
 void GameEngine::swapBuffer()
@@ -123,13 +144,13 @@ void GameEngine::swapBuffer()
 
 void GameEngine::Cleanup()
 {
-	// cleanup the all states
+	// cleanup all the states
 	while (!states.empty()) {
 		states.back()->Cleanup();
 		states.pop_back();
 	}
 
-	printf("CGameEngine Cleanup\n");
+	printf("GameEngine Cleanup\n");
 
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mSDLWindow);

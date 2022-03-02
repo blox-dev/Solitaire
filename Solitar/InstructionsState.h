@@ -27,17 +27,10 @@ protected:
 	InstructionsState() { }
 
 private:
+	int TEXT_WIDTH = 0;
+	int TEXT_HEIGHT = 0;
 	// instance
 	static InstructionsState mInstructionsState;
-
-	// drawing stuff
-	LTexture mButton;
-	LTexture mButtonPressed;
-	LTexture mButtonHighlighted;
-	//LTexture mBlockedButton;
-
-	int TEXT_HEIGHT;
-	int TEXT_WIDTH;
 
 	const int ROW_PADDING = 2;
 

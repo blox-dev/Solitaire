@@ -4,7 +4,12 @@ Button::Button()
 {
 }
 
-void Button::init(LTexture* buttonTexture, LTexture* buttonPressedTexture, LTexture* buttonHighlightedTexture, std::string buttonText, SDL_Color color)
+Button::~Button()
+{
+	bText.free();
+}
+
+void Button::init(LTexture* buttonTexture, LTexture* buttonPressedTexture, LTexture* buttonHighlightedTexture, LTexture* buttonBlockedTexture, std::string buttonText, SDL_Color color)
 {
 	//maybe not necessary
 	bActive = true;
@@ -13,6 +18,8 @@ void Button::init(LTexture* buttonTexture, LTexture* buttonPressedTexture, LText
 	bTexture = buttonTexture;
 	bPressedTexture = buttonPressedTexture;
 	bHighlightedTexture = buttonHighlightedTexture;
+	bBlockedTexture = buttonBlockedTexture;
+
 	bText.loadFromRenderedText(buttonText.c_str(), color);
 }
 
@@ -22,8 +29,9 @@ void Button::render()
 	if (bActive) {
 		if (bBlocked)
 		{
-			//TODO: add bBlockedTexture to constructor
-			//bBlockedTexture->render(x, y, bWidth, bHeight);
+			if(bBlockedTexture != nullptr)
+				bBlockedTexture->render(x, y, bWidth, bHeight);
+
 			bText.render(x + bWidth / 4, y + bHeight / 3, bWidth / 2, bHeight / 2);
 			return;
 		}

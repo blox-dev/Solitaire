@@ -66,6 +66,9 @@ bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor
     //Get rid of preexisting texture
     free();
 
+    if (textureText.empty())
+        textureText = " ";
+
     //Render text surface
     SDL_Surface* textSurface = TTF_RenderText_Solid(gRobotoFont, textureText.c_str(), textColor);
     if (textSurface == NULL)
@@ -83,6 +86,8 @@ bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor
         else
         {
             //Get image dimensions
+            //TTF_SizeText(gRobotoFont, textureText.c_str(), &tWidth, &tHeight);
+
             tWidth = textSurface->w;
             tHeight = textSurface->h;
         }
@@ -91,7 +96,6 @@ bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor
         SDL_FreeSurface(textSurface);
     }
 
-    textLength = textureText.length();
     //Return success
     return mTexture != NULL;
 }
@@ -124,6 +128,22 @@ void LTexture::setAlpha(Uint8 alpha)
 {
     //Modulate texture alpha
     SDL_SetTextureAlphaMod(mTexture, alpha);
+}
+
+void LTexture::render(int x0, int y0, float scale, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+{
+    //Set rendering space and render to screen
+    SDL_Rect renderQuad = { x0, y0, tWidth * scale, tHeight * scale };
+
+    //Set clip rendering dimensions
+    if (clip != NULL)
+    {
+        renderQuad.w = clip->w;
+        renderQuad.h = clip->h;
+    }
+
+    //Render to screen
+    SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
 }
 
 void LTexture::render(int x0, int y0, int width, int height, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)

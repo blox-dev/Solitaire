@@ -12,17 +12,62 @@ void BoardPiecesMenuState::Init()
 {
 	printf("BoardShapeMenuState Init\n");
 
-	//buttons
-	mButton.loadFromFile("textures/Button.png");
-	mButtonHighlighted.loadFromFile("textures/ButtonHighlighted.png");
-	mButtonPressed.loadFromFile("textures/ButtonPressed.png");
-
 	SDL_Color color{ 255,255,255,255 };
 
-	infoText.loadFromRenderedText("Select initial state (1 <= Nr. of board pieces < " + std::to_string(gBoardSize*gBoardSize) + ")", color);
+	infoText.loadFromRenderedText("Place pieces on the board (at least one, at least one empty tile)", color);
 
-	mContinueButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Start game");
-	mBackButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Back");
+	mBackButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Back");
+
+	mEmptyButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Empty"
+	);
+
+	mFillButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Fill"
+	);
+
+	mContinueButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Start game");
+	
+	//-------------
+
+	mBackButton.setPos(
+		gScreenWidth * 0.05,
+		gScreenHeight * 0.85,
+		gScreenWidth * 0.15,
+		gScreenHeight * 0.1
+	);
+
+	mEmptyButton.setPos(
+		gScreenWidth * 0.30,
+		gScreenHeight * 0.85,
+		gScreenWidth * 0.15,
+		gScreenHeight * 0.1
+	);
+
+	mFillButton.setPos(
+		gScreenWidth * 0.55,
+		gScreenHeight * 0.85,
+		gScreenWidth * 0.15,
+		gScreenHeight * 0.1
+	);
 
 	mContinueButton.setPos(
 		gScreenWidth * 0.8,
@@ -33,18 +78,11 @@ void BoardPiecesMenuState::Init()
 
 	mContinueButton.setBlocked(true);
 
-	mBackButton.setPos(
-		gScreenWidth * 0.05,
-		gScreenHeight * 0.85,
-		gScreenWidth * 0.15,
-		gScreenHeight * 0.1
-	);
-
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
 		gScreenHeight * 0.1,
-		gScreenWidth * 0.8,
-		gScreenHeight * 0.8
+		gScreenWidth * 0.75,
+		gScreenHeight * 0.75
 	);
 }
 
@@ -52,14 +90,7 @@ void BoardPiecesMenuState::Cleanup()
 {
 	printf("BoardShapeMenuState Cleanup\n");
 
-	mButton.free();
-	mButtonPressed.free();
-	mButtonHighlighted.free();
-	mButtonBlocked.free();
-
 	infoText.free();
-	nText.free();
-	inputTextTexture.free();
 }
 
 void BoardPiecesMenuState::Pause()
@@ -97,12 +128,23 @@ void BoardPiecesMenuState::HandleEvents(GameEngine* game)
 	}
 	else mContinueButton.setBlocked(true);
 
+	if (mEmptyButton.clicked())
+	{
+		gBoard.empty();
+	}
+
+	if (mFillButton.clicked())
+	{
+		gBoard.fill();
+	}
+
 	if (mContinueButton.clicked())
 	{
 		game->PushState(PlayGameState::Instance());
 	}
 	if (mBackButton.clicked())
 	{
+		gBoard.empty();
 		game->PopState();
 	}
 
@@ -115,19 +157,15 @@ void BoardPiecesMenuState::Update(GameEngine* game)
 
 void BoardPiecesMenuState::Draw(GameEngine* game)
 {
-	int h = game->getScreenHeight();
-	int w = game->getScreenWidth();
-
-	SDL_Renderer* r = gRenderer;
-
-	infoText.render(5, 5, w - 10, 25);
-
-	int x0 = w * 0.1;
-	int y0 = h * 0.1;
+	infoText.render(5, 5, 1.0f);
 
 	gBoard.draw(BoardMode::PLACE);
 
-
-	mContinueButton.render();
 	mBackButton.render();
+
+	mEmptyButton.render();
+	
+	mFillButton.render();
+	
+	mContinueButton.render();
 }

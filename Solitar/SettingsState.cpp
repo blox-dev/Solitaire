@@ -38,64 +38,83 @@ void SettingsState::Init()
 	//light green
 	hexStringToSDLColor(pieceColors[4], "#b4eeb4");
 
-	//button textures
-	mButton.loadFromFile("textures/Button.png");
-	mButtonHighlighted.loadFromFile("textures/ButtonHighlighted.png");
-	mButtonPressed.loadFromFile("textures/ButtonPressed.png");
-
-	mLeftArrowButtonTexture.loadFromFile("textures/Left.png");
-	mLeftArrowButtonHighlightedTexture.loadFromFile("textures/LeftHighlighted.png");
-	mLeftArrowButtonPressedTexture.loadFromFile("textures/LeftPressed.png");
-
-	mRightArrowButtonTexture.loadFromFile("textures/Right.png");
-	mRightArrowButtonHighlightedTexture.loadFromFile("textures/RightHighlighted.png");
-	mRightArrowButtonPressedTexture.loadFromFile("textures/RightPressed.png");
-
-
 	//buttons
 
-	mBoardColorLeftArrow.init(&mLeftArrowButtonTexture, &mLeftArrowButtonPressedTexture, &mLeftArrowButtonHighlightedTexture, "");
-	mPieceColorLeftArrow.init(&mLeftArrowButtonTexture, &mLeftArrowButtonPressedTexture, &mLeftArrowButtonHighlightedTexture, "");
+	mBoardColorLeftArrow.init(
+		gCommonTextures.leftArrow,
+		gCommonTextures.leftArrowPressed,
+		gCommonTextures.leftArrowHighlighted,
+		nullptr,
+		"");
 
-	mBoardColorRightArrow.init(&mRightArrowButtonTexture, &mRightArrowButtonPressedTexture, &mRightArrowButtonHighlightedTexture, "");
-	mPieceColorRightArrow.init(&mRightArrowButtonTexture, &mRightArrowButtonPressedTexture, &mRightArrowButtonHighlightedTexture, "");
+	mPieceColorLeftArrow.init(
+		gCommonTextures.leftArrow,
+		gCommonTextures.leftArrowPressed,
+		gCommonTextures.leftArrowHighlighted,
+		nullptr,
+		""
+	);
+
+	mBoardColorRightArrow.init(
+		gCommonTextures.rightArrow,
+		gCommonTextures.rightArrowPressed,
+		gCommonTextures.rightArrowHighlighted,
+		nullptr,
+		""
+	);
+
+	mPieceColorRightArrow.init(
+		gCommonTextures.rightArrow,
+		gCommonTextures.rightArrowPressed,
+		gCommonTextures.rightArrowHighlighted,
+		nullptr,
+		""
+	);
 	
-	mBackButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Back");
+	mBackButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Back"
+	);
 
 	//text
 
 	SDL_Color color{ 255,255,255,255 };
-	mPieceColorText.loadFromRenderedText("Piece color:", color);
-	mBoardColorText.loadFromRenderedText("Board color:", color);
+	mPieceColorText.loadFromRenderedText("Piece color ", color);
+	mBoardColorText.loadFromRenderedText("Board color ", color);
 	
 	//set positions
+	static const int HEIGHT_PADDING = 20;
+	static const int WIDTH_PADDING = 5;
 
 	mBoardColorLeftArrow.setPos(
-		0.3 * gScreenWidth,
-		0.1 * gScreenHeight,
-		0.1 * gScreenWidth,
-		0.1 * gScreenHeight
+		WIDTH_PADDING + mBoardColorText.tWidth,
+		HEIGHT_PADDING,
+		mBoardColorText.tHeight,
+		mBoardColorText.tHeight
 	);
 
 	mBoardColorRightArrow.setPos(
-		0.52*gScreenWidth,
-		0.1*gScreenHeight,
-		0.1*gScreenWidth,
-		0.1*gScreenHeight
+		WIDTH_PADDING*3 + mBoardColorText.tWidth + mBoardColorText.tHeight *2,
+		HEIGHT_PADDING,
+		mBoardColorText.tHeight,
+		mBoardColorText.tHeight
 	);
 
 	mPieceColorLeftArrow.setPos(
-		0.3 * gScreenWidth,
-		0.25 * gScreenHeight,
-		0.1 * gScreenWidth,
-		0.1 * gScreenHeight
+		WIDTH_PADDING + mPieceColorText.tWidth,
+		HEIGHT_PADDING*2 + mBoardColorText.tHeight,
+		mPieceColorText.tHeight,
+		mPieceColorText.tHeight
 	);
 
 	mPieceColorRightArrow.setPos(
-		0.52 * gScreenWidth,
-		0.25 * gScreenHeight,
-		0.1 * gScreenWidth,
-		0.1 * gScreenHeight
+		WIDTH_PADDING*3 + mPieceColorText.tWidth + 2*mPieceColorText.tHeight,
+		HEIGHT_PADDING * 2 + mBoardColorText.tHeight,
+		mPieceColorText.tHeight,
+		mPieceColorText.tHeight
 	);
 
 	mBackButton.setPos(
@@ -110,17 +129,8 @@ void SettingsState::Cleanup()
 {
 	printf("SettingsState Cleanup\n");
 
-	mButton.free();
-	mButtonPressed.free();
-	mButtonHighlighted.free();
-
-	mLeftArrowButtonTexture.free();
-	mLeftArrowButtonPressedTexture.free();
-	mLeftArrowButtonHighlightedTexture.free();
-
-	mRightArrowButtonTexture.free();
-	mRightArrowButtonPressedTexture.free();
-	mRightArrowButtonHighlightedTexture.free();
+	mBoardColorText.free();
+	mPieceColorText.free();
 }
 
 void SettingsState::Pause()
@@ -218,27 +228,26 @@ void SettingsState::Update(GameEngine* game)
 
 void SettingsState::Draw(GameEngine* game)
 {
+	static const int HEIGHT_PADDING = 20;
+	static const int WIDTH_PADDING = 5;
+
 	int screenWidth = game->getScreenWidth();
 	int screenHeight = game->getScreenHeight();
 
 	// board color stuff
 
-	mBoardColorText.render(
-		0.05 * gScreenWidth,
-		0.1 * gScreenHeight,
-		0.25 * gScreenWidth,
-		0.1 * gScreenHeight
-	);
+	mBoardColorText.render(WIDTH_PADDING, HEIGHT_PADDING, 1.0f);
 
 	mBoardColorLeftArrow.render();
 	mBoardColorRightArrow.render();
 
 	SDL_Rect boardColorRect = { 
-		0.41 * gScreenWidth,
-		0.1 * gScreenHeight,
-		0.1 * gScreenWidth,
-		0.1 * gScreenHeight
+		WIDTH_PADDING*2 + mBoardColorText.tWidth + mBoardColorText.tHeight,
+		HEIGHT_PADDING,
+		mBoardColorText.tHeight,
+		mBoardColorText.tHeight
 	};
+
 	SDL_SetRenderDrawColor(gRenderer, gBoardColor.r, gBoardColor.g, gBoardColor.b, gBoardColor.a);
 	SDL_RenderFillRect(gRenderer, &boardColorRect);
 
@@ -248,21 +257,16 @@ void SettingsState::Draw(GameEngine* game)
 
 	// piece color stuff
 
-	mPieceColorText.render(
-		0.05 * gScreenWidth,
-		0.25 * gScreenHeight,
-		0.25 * gScreenWidth,
-		0.1 * gScreenHeight
-	);
+	mPieceColorText.render(WIDTH_PADDING, HEIGHT_PADDING * 2 + mBoardColorText.tHeight, 1.0f);
 
 	mPieceColorLeftArrow.render();
 	mPieceColorRightArrow.render();
 
 	SDL_Rect pieceColorRect = {
-		0.41 * gScreenWidth,
-		0.25 * gScreenHeight,
-		0.1 * gScreenWidth,
-		0.1 * gScreenHeight
+		WIDTH_PADDING*2 + mPieceColorText.tWidth + mPieceColorText.tHeight,
+		HEIGHT_PADDING*2 + mBoardColorText.tHeight,
+		mPieceColorText.tHeight,
+		mPieceColorText.tHeight
 	};
 
 	SDL_SetRenderDrawColor(gRenderer, gPieceColor.r, gPieceColor.g, gPieceColor.b, gPieceColor.a);

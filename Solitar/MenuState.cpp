@@ -12,27 +12,54 @@ MenuState MenuState::mMenuState;
 
 void MenuState::Init()
 {
-	printf("CMenuState Init\n");
+	printf("MenuState Init\n");
 
 
 	//title
 	mTitleImage.loadFromFile("textures/Title.png");
-
-	//buttons
-	mButton.loadFromFile("textures/Button.png");
-	mButtonHighlighted.loadFromFile("textures/ButtonHighlighted.png");
-	mButtonPressed.loadFromFile("textures/ButtonPressed.png");
 
 	SDL_Color color{ 255,255,255,255 };
 
 	int divHeight = gScreenHeight / 13;
 	int divWidth = gScreenWidth / 6;
 
-	mOnePlayerButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "1 Player");
-	mTwoPlayerButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "2 Players");
-	mInstructionsButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Instructions");
-	mSettingsButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Settings");
-	mExitButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Quit game");
+	mOnePlayerButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"1 Player"
+	);
+
+	mTwoPlayerButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"2 Players"
+	);
+
+	mInstructionsButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Instructions"
+	);
+	mSettingsButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Settings");
+
+	mExitButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Quit game"
+	);
 
 	mOnePlayerButton.setPos(
 		gScreenWidth / 2 - divWidth,
@@ -72,21 +99,18 @@ void MenuState::Init()
 
 void MenuState::Cleanup()
 {
-	printf("CMenuState Cleanup\n");
+	printf("MenuState Cleanup\n");
 	mTitleImage.free();
-	mButton.free();
-	mButtonPressed.free();
-	mButtonHighlighted.free();
 }
 
 void MenuState::Pause()
 {
-	printf("CMenuState Pause\n");
+	printf("MenuState Pause\n");
 }
 
 void MenuState::Resume()
 {
-	printf("CMenuState Resume\n");
+	printf("MenuState Resume\n");
 }
 
 void MenuState::HandleEvents(GameEngine* game)
@@ -133,7 +157,6 @@ void MenuState::HandleEvents(GameEngine* game)
 
 	if (mOnePlayerButton.clicked())
 	{
-		printf("Clicked one player\n");
 		gBoard.setComputerPlaying(true);
 		game->PushState(BoardSizeMenuState::Instance());
 	}
@@ -141,25 +164,21 @@ void MenuState::HandleEvents(GameEngine* game)
 	if (mTwoPlayerButton.clicked())
 	{
 		gBoard.setComputerPlaying(false);
-		printf("Clicked two players\n");
 		game->PushState(BoardSizeMenuState::Instance());
 	}
 
 	if (mInstructionsButton.clicked())
 	{
-		printf("Clicked instructions\n");
 		game->PushState(InstructionsState::Instance());
 	}
 
 	if (mSettingsButton.clicked())
 	{
-		printf("Clicked settings\n");
 		game->PushState(SettingsState::Instance());
 	}
 
 	if (mExitButton.clicked())
 	{
-		printf("Clicked exit\n");
 		game->Quit();
 	}
 }

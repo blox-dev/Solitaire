@@ -7,11 +7,12 @@ class Button : public LTexture
 {
 public:
 	Button();
+	~Button();
 
 	void setPos(int x0, int y0, int width, int height) { x = x0; y = y0; bWidth = width; bHeight = height; };
 
 	void init(
-		LTexture* buttonTexture, LTexture* buttonPressedTexture, LTexture* buttonHighlightedTexture, 
+		LTexture* buttonTexture, LTexture* buttonPressedTexture, LTexture* buttonHighlightedTexture, LTexture* buttonBlockedTexture,
 		std::string buttonText = " ", SDL_Color color = SDL_Color{ 255,255,255,255 }
 	);
 
@@ -30,5 +31,6 @@ protected:
 	LTexture* bTexture = nullptr;
 	LTexture* bPressedTexture = nullptr;
 	LTexture* bHighlightedTexture = nullptr;
+	LTexture* bBlockedTexture = nullptr;
 };
 

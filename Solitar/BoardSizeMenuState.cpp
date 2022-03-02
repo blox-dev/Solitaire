@@ -11,20 +11,27 @@ void BoardSizeMenuState::Init()
 {
 	printf("BoardSizeMenuState Init\n");
 
-	//buttons
-	mButton.loadFromFile("textures/Button.png");
-	mButtonHighlighted.loadFromFile("textures/ButtonHighlighted.png");
-	mButtonPressed.loadFromFile("textures/ButtonPressed.png");
-	mButtonBlocked.loadFromFile("textures/ButtonBlocked.png");
-
 	SDL_Color color{ 255,255,255,255 };
 
 	infoText.loadFromRenderedText("Type the desired board size (" + std::to_string(MIN_BOARD_SIZE) + " <= n <= " + std::to_string(MAX_BOARD_SIZE) + ")", color);
 	nText.loadFromRenderedText("n=", color);
-	inputTextTexture.loadFromRenderedText(" ", color);
+	inputTextTexture.loadFromRenderedText("", color);
 
-	mContinueButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Continue");
-	mBackButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Back");
+	mContinueButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Continue"
+	);
+
+	mBackButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Back"
+	);
 
 	mContinueButton.setPos(
 		gScreenWidth * 0.8,
@@ -48,8 +55,8 @@ void BoardSizeMenuState::Init()
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
 		gScreenHeight * 0.1,
-		gScreenWidth * 0.8,
-		gScreenHeight * 0.8
+		gScreenWidth * 0.75,
+		gScreenHeight * 0.75
 	);
 
 }
@@ -57,11 +64,6 @@ void BoardSizeMenuState::Init()
 void BoardSizeMenuState::Cleanup()
 {
 	printf("BoardSizeMenuState Cleanup\n");
-
-	mButton.free();
-	mButtonPressed.free();
-	mButtonHighlighted.free();
-	mButtonBlocked.free();
 
 	infoText.free();
 	nText.free();
@@ -141,8 +143,6 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 		else gBoardSize = stoi(inputText);
 
 		gBoard.setBoardSize(gBoardSize);
-
-		//gBoard.draw(BoardMode::EMPTY);
 	}
 
 	if (mContinueButton.clicked())
@@ -165,27 +165,11 @@ void BoardSizeMenuState::Update(GameEngine* game)
 
 void BoardSizeMenuState::Draw(GameEngine* game)
 {
-	int h = game->getScreenHeight();
-	int w = game->getScreenWidth();
-	//SDL_Renderer* r = gRenderer;
-	//
-	infoText.render(5, 5, w-10, 25);
-	nText.render(5, 30, 25*2, 25);
-	inputTextTexture.render(50, 30, 25*inputText.length(), 25);
+	infoText.render(5, 5, 1.0f);
+	
+	nText.render(5, 5 + infoText.tHeight, 1.0f);
 
-	////Render red filled quad
-	//SDL_Rect fillRect = { w / 4, h / 4, w / 2, h / 2 };
-	//SDL_SetRenderDrawColor(r, 0xFF, 0x00, 0x00, 0xFF);
-	//SDL_RenderFillRect(r, &fillRect);
-
-	////Render green outlined quad
-	//SDL_Rect outlineRect = { w / 6, h / 6, w * 2 / 3, h * 2 / 3 };
-	//SDL_SetRenderDrawColor(r, 0x00, 0xFF, 0x00, 0xFF);
-	//SDL_RenderDrawRect(r, &outlineRect);
-
-	////Draw blue horizontal line
-	//SDL_SetRenderDrawColor(r, 0x00, 0x00, 0xFF, 0xFF);
-	//SDL_RenderDrawLine(r, 0, h / 2, w, h / 2);
+	inputTextTexture.render(5 + nText.tWidth, 5 + infoText.tHeight, 1.0f);
 
 	gBoard.draw(BoardMode::EMPTY);
 

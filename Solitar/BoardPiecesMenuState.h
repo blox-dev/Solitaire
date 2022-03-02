@@ -29,18 +29,13 @@ private:
 	// instance
 	static BoardPiecesMenuState mBoardPiecesMenuState;
 
-	// drawing stuff
-	LTexture mButton;
-	LTexture mButtonPressed;
-	LTexture mButtonHighlighted;
-	LTexture mButtonBlocked;
+	//buttons
 
 	Button mBackButton;
+	Button mFillButton;
+	Button mEmptyButton;
 	Button mContinueButton;
 
 	//text stuff
 	LTexture infoText;
-	LTexture nText;
-
-	LTexture inputTextTexture;
 };

@@ -31,12 +31,7 @@ private:
 
 	int mPlayerTurn = 1;
 
-	// drawing stuff
-	LTexture mButton;
-	LTexture mButtonPressed;
-	LTexture mButtonHighlighted;
-	LTexture mButtonBlocked;
-
+	// buttons
 	Button mBackButton;
 
 	//text stuff
@@ -50,6 +45,5 @@ private:
 	LTexture mComputerWinText;
 
 	LTexture mScoreText;
-	LTexture mWinText;
 };
 

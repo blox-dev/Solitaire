@@ -18,9 +18,27 @@ extern int gBoardSize;
 class Board;
 extern Board gBoard;
 
+class LTexture;
+
+struct CommonTextures {
+	LTexture* button;
+	LTexture* buttonPressed;
+	LTexture* buttonHighlighted;
+	LTexture* buttonBlocked;
+	LTexture* leftArrow;
+	LTexture* leftArrowPressed;
+	LTexture* leftArrowHighlighted;
+	LTexture* rightArrow;
+	LTexture* rightArrowPressed;
+	LTexture* rightArrowHighlighted;
+};
+
+extern CommonTextures gCommonTextures;
+
 extern SDL_Color gBoardColor;
 extern SDL_Color gPieceColor;
 extern InputManager gInputManager;
+
 extern SDL_Renderer* gRenderer;
 extern TTF_Font* gRobotoFont;
 
@@ -41,7 +59,6 @@ public:
 	void swapBuffer();
 	int getScreenWidth() { return mScreenWidth; };
 	int getScreenHeight() { return mScreenHeight; };
-	//static Context* const getSharedContext() { return &mContext; };
 
 	void Cleanup();
 
@@ -59,8 +76,6 @@ public:
 	SDL_Surface* screen;
 
 private:
-
-	//static Context mContext;
 
 	SDL_Renderer* mRenderer = nullptr;
 	TTF_Font* mRobotoFont = nullptr;

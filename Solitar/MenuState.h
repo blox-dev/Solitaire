@@ -29,14 +29,10 @@ private:
 	// instance
 	static MenuState mMenuState;
 
-	// drawing stuff
-	LTexture mButton;
-	LTexture mButtonPressed;
-	LTexture mButtonHighlighted;
-	//LTexture mBlockedButton;
-
+	// title
 	LTexture mTitleImage;
 
+	// buttons
 	Button mOnePlayerButton;
 	Button mTwoPlayerButton;
 	Button mInstructionsButton;

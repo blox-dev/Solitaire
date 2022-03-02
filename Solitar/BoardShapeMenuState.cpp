@@ -12,17 +12,24 @@ void BoardShapeMenuState::Init()
 {
 	printf("BoardShapeMenuState Init\n");
 
-	//buttons
-	mButton.loadFromFile("textures/Button.png");
-	mButtonHighlighted.loadFromFile("textures/ButtonHighlighted.png");
-	mButtonPressed.loadFromFile("textures/ButtonPressed.png");
-
 	SDL_Color color{ 255,255,255,255 };
 
-	infoText.loadFromRenderedText("Choose board shape:", color);
+	infoText.loadFromRenderedText("Select unplayable tiles:", color);
 	
-	mContinueButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Continue");
-	mBackButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Back");
+	mContinueButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Continue");
+
+	mBackButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Back"
+	);
 
 	mContinueButton.setPos(
 		gScreenWidth * 0.8,
@@ -41,8 +48,8 @@ void BoardShapeMenuState::Init()
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
 		gScreenHeight * 0.1,
-		gScreenWidth * 0.8,
-		gScreenHeight * 0.8
+		gScreenWidth * 0.75,
+		gScreenHeight * 0.75
 	);
 }
 
@@ -50,14 +57,7 @@ void BoardShapeMenuState::Cleanup()
 {
 	printf("BoardShapeMenuState Cleanup\n");
 
-	mButton.free();
-	mButtonPressed.free();
-	mButtonHighlighted.free();
-	mButtonBlocked.free();
-
 	infoText.free();
-	nText.free();
-	inputTextTexture.free();
 }
 
 void BoardShapeMenuState::Pause()
@@ -112,10 +112,7 @@ void BoardShapeMenuState::Draw(GameEngine* game)
 
 	SDL_Renderer* r = gRenderer;
 
-	infoText.render(5, 5, w - 10, 25);
-	
-	int x0 = w * 0.1;
-	int y0 = h * 0.1;
+	infoText.render(5, 5, 1.0f);
 
 	gBoard.draw(BoardMode::REMOVE);
 

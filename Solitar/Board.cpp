@@ -244,7 +244,6 @@ void Board::update(BoardMode mode)
 				// setting unreachable tiles
 				// 0 to 2 and 2 to 0
 				mBoard[row][col] = 2 - mBoard[row][col];
-				printf("set (%d,%d) to %d\n", row, col, mBoard[row][col]);
 				break;
 			case BoardMode::PLACE:
 				// setting initial board by placing or removing pieces

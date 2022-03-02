@@ -19,9 +19,6 @@ public:
 		game->ChangeState(state);
 	};
 
-	//static void setSharedContext(Context* sharedContext) { mSharedContext = sharedContext; };
-
 protected:
-	//static Context* mSharedContext;
 	GameState() { }
 };

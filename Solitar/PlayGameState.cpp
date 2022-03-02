@@ -12,11 +12,6 @@ void PlayGameState::Init()
 {
 	printf("BoardShapeMenuState Init\n");
 
-	//buttons
-	mButton.loadFromFile("textures/Button.png");
-	mButtonHighlighted.loadFromFile("textures/ButtonHighlighted.png");
-	mButtonPressed.loadFromFile("textures/ButtonPressed.png");
-
 	SDL_Color color{ 255,255,255,255 };
 
 	mPlayer1Text.loadFromRenderedText("It's player 1's turn", color);
@@ -30,12 +25,18 @@ void PlayGameState::Init()
 	mComputerWinText.loadFromRenderedText("The computer wins!", color);
 	mDrawText.loadFromRenderedText("It's a draw!", color);
 
-	mBackButton.init(&mButton, &mButtonPressed, &mButtonHighlighted, "Main menu");
+	mBackButton.init(
+		gCommonTextures.button,
+		gCommonTextures.buttonPressed,
+		gCommonTextures.buttonHighlighted,
+		gCommonTextures.buttonBlocked,
+		"Main menu"
+	);
 
 	mBackButton.setPos(
-		gScreenWidth * 0.8,
+		gScreenWidth * 0.75,
 		gScreenHeight * 0,
-		gScreenWidth * 0.15,
+		gScreenWidth * 0.2,
 		gScreenHeight * 0.1
 	);
 
@@ -53,16 +54,17 @@ void PlayGameState::Cleanup()
 {
 	printf("BoardShapeMenuState Cleanup\n");
 
-	mButton.free();
-	mButtonPressed.free();
-	mButtonHighlighted.free();
-	mButtonBlocked.free();
-
-
 	// free text
 	mPlayer1Text.free();
 	mPlayer2Text.free();
 	mComputerText.free();
+
+	mDrawText.free();
+	mPlayer1WinText.free();
+	mPlayer2WinText.free();
+	mComputerWinText.free();
+
+	mScoreText.free();
 }
 
 void PlayGameState::Pause()
@@ -125,31 +127,16 @@ void PlayGameState::Draw(GameEngine* game)
 	{
 		//game is not over
 		if (gBoard.getCurrentPlayer() == 0)
-			mPlayer1Text.render(
-				5,
-				5,
-				gScreenWidth * 0.4,
-				gScreenHeight * 0.05
-			);
+			mPlayer1Text.render(5, 5, 1.0f);
 
 		if (gBoard.getCurrentPlayer() == 1)
 		{
 			if (gBoard.isComputerPlaying())
 			{
-				mComputerText.render(
-					5,
-					5,
-					gScreenWidth * 0.4,
-					gScreenHeight * 0.05
-				);
+				mComputerText.render(5, 5, 1.0f);
 			}
 			else {
-				mPlayer2Text.render(
-					5,
-					5,
-					gScreenWidth * 0.4,
-					gScreenHeight * 0.05
-				);
+				mPlayer2Text.render(5, 5, 1.0f);
 			}
 		}
 	}
@@ -163,50 +150,25 @@ void PlayGameState::Draw(GameEngine* game)
 
 		if (score1 > score2)
 		{
-			mPlayer1WinText.render(
-				5,
-				5,
-				gScreenWidth * 0.4,
-				gScreenHeight * 0.05
-			);
+			mPlayer1WinText.render(5, 5, 1.0f);
 		}
 		else if (score2 > score1)
 		{
 			if (gBoard.isComputerPlaying())
 			{
-				mComputerWinText.render(
-					5,
-					5,
-					gScreenWidth * 0.4,
-					gScreenHeight * 0.05
-				);
+				mComputerWinText.render(5, 5, 1.0f);
 			}
 			else {
-				mPlayer2WinText.render(
-					5,
-					5,
-					gScreenWidth * 0.4,
-					gScreenHeight * 0.05
-				);
+				mPlayer2WinText.render(5, 5, 1.0f);
 			}
 		}
 		else {
-			mDrawText.render(
-				5,
-				5,
-				gScreenWidth * 0.4,
-				gScreenHeight * 0.05
-			);
+			mDrawText.render(5, 5, 1.0f);
 		}
 	}
 
 	//score text
-	mScoreText.render(
-		gScreenWidth * 0.5,
-		5,
-		gScreenWidth * 0.15,
-		gScreenHeight * 0.05
-	);
+	mScoreText.render(gScreenWidth * 0.5, 5, 1.0f);
 
 	gBoard.draw(BoardMode::PLAY);
 

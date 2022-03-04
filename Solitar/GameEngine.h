@@ -13,7 +13,6 @@ constexpr int MAX_BOARD_SIZE = 20;
 
 extern int gScreenWidth;
 extern int gScreenHeight;
-extern int gBoardSize;
 
 class Board;
 extern Board gBoard;

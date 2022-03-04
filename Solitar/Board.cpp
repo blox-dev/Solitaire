@@ -387,8 +387,8 @@ void Board::makeComputerMove()
 	bool bestChanged = false;
 
 	//compute the best move
-	for (int i = 0; i < gBoardSize; ++i)
-		for (int j = 0; j < gBoardSize; ++j)
+	for (int i = 0; i < mBoardSize; ++i)
+		for (int j = 0; j < mBoardSize; ++j)
 			if (mBoard[i][j] == 1)
 			{
 				findBestMoveFromPos(i, j, &currentMove[0], &bestMove[0], 1, bestChanged);
@@ -437,7 +437,7 @@ void Board::findBestMoveFromPos(int i, int j, int* currentMove, int* bestMove, i
 		int nextj = j + 2 * dj[k];
 
 		//still inside the playing board
-		if (nexti >= 0 && nexti < gBoardSize && nextj >= 0 && nextj < gBoardSize)
+		if (nexti >= 0 && nexti < mBoardSize && nextj >= 0 && nextj < mBoardSize)
 		{
 			//can jump over there
 			if (mBoard[i][j] == 1 &&
@@ -465,8 +465,8 @@ void Board::findBestMoveFromPos(int i, int j, int* currentMove, int* bestMove, i
 
 void Board::clearHighLight()
 {
-	for (int i = 0; i < gBoardSize; ++i)
-		for (int j = 0; j < gBoardSize; ++j)
+	for (int i = 0; i < mBoardSize; ++i)
+		for (int j = 0; j < mBoardSize; ++j)
 			if (mBoard[i][j] == 3)
 				mBoard[i][j] = 0;
 }
@@ -479,8 +479,8 @@ void Board::drawHighlightedPieces()
 	// green
 	SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
 
-	for (int row = 0; row < gBoardSize; ++row)
-		for (int col = 0; col < gBoardSize; ++col)
+	for (int row = 0; row < mBoardSize; ++row)
+		for (int col = 0; col < mBoardSize; ++col)
 			if (mBoard[row][col] == 3)
 			{
 				int i = x + col * cellWidth;

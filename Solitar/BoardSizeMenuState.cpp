@@ -101,7 +101,6 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 
 	if (mContinueButton.clicked())
 	{
-		gBoardSize = mValueSlider.getValue();
 		gBoard.setBoardSize(mValueSlider.getValue());
 		gBoard.reset();
 

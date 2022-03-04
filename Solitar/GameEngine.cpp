@@ -13,7 +13,6 @@
 
 int gScreenWidth;
 int gScreenHeight;
-int gBoardSize;
 
 // the board
 Board gBoard = Board();
@@ -99,7 +98,7 @@ void GameEngine::Init(std::string windowName, int screenWidth, int screenHeight,
 	//gInputManager = &mInputManager;
 	gScreenWidth = screenWidth;
 	gScreenHeight = screenHeight;
-	gBoardSize = 0;
+
 	gBoardColor = SDL_Color{ 0,0,0,255 };
 	gPieceColor = SDL_Color{ 255,255,255,255 };
 

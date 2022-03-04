@@ -11,11 +11,10 @@ void BoardSizeMenuState::Init()
 {
 	printf("BoardSizeMenuState Init\n");
 
-	SDL_Color color{ 255,255,255,255 };
 
-	infoText.loadFromRenderedText("Type the desired board size (" + std::to_string(MIN_BOARD_SIZE) + " <= n <= " + std::to_string(MAX_BOARD_SIZE) + ")", color);
-	nText.loadFromRenderedText("n=", color);
-	inputTextTexture.loadFromRenderedText("", color);
+	infoText.loadFromRenderedText("Type the desired board size (" + std::to_string(MIN_BOARD_SIZE) + " <= n <= " + std::to_string(MAX_BOARD_SIZE) + ")");
+	nText.loadFromRenderedText("n=");
+	inputTextTexture.loadFromRenderedText("");
 
 	mContinueButton.init(
 		gCommonTextures.button,

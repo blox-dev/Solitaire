@@ -12,9 +12,7 @@ void BoardPiecesMenuState::Init()
 {
 	printf("BoardShapeMenuState Init\n");
 
-	SDL_Color color{ 255,255,255,255 };
-
-	infoText.loadFromRenderedText("Place pieces on the board (at least one, at least one empty tile)", color);
+	infoText.loadFromRenderedText("Place pieces on the board (at least one, at least one empty tile)");
 
 	mBackButton.init(
 		gCommonTextures.button,

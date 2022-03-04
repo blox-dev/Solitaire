@@ -14,8 +14,6 @@ void InstructionsState::Init()
 
 	textureNum = 0;
 
-	SDL_Color color{ 255,255,255,255 };
-
 	mBackButton.init(
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
@@ -57,14 +55,14 @@ void InstructionsState::Init()
 		}
 		else
 		{
-			textTexture[textureNum++].loadFromRenderedText(current_string, color);
+			textTexture[textureNum++].loadFromRenderedText(current_string);
 
 			current_string = instructionsText.substr(last, next - last) + " ";
 			current_char_count = current_string.length();
 		}
 		last = next + 1;
 	}
-	textTexture[textureNum++].loadFromRenderedText(current_string + instructionsText.substr(last), color);
+	textTexture[textureNum++].loadFromRenderedText(current_string + instructionsText.substr(last));
 }
 
 void InstructionsState::Cleanup()

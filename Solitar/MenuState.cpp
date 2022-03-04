@@ -18,8 +18,6 @@ void MenuState::Init()
 	//title
 	mTitleImage.loadFromFile("textures/Title.png");
 
-	SDL_Color color{ 255,255,255,255 };
-
 	int divHeight = gScreenHeight / 13;
 	int divWidth = gScreenWidth / 6;
 

@@ -12,9 +12,7 @@ void BoardShapeMenuState::Init()
 {
 	printf("BoardShapeMenuState Init\n");
 
-	SDL_Color color{ 255,255,255,255 };
-
-	infoText.loadFromRenderedText("Select unplayable tiles:", color);
+	infoText.loadFromRenderedText("Select unplayable tiles:");
 	
 	mContinueButton.init(
 		gCommonTextures.button,

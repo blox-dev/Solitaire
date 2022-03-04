@@ -81,9 +81,8 @@ void SettingsState::Init()
 
 	//text
 
-	SDL_Color color{ 255,255,255,255 };
-	mPieceColorText.loadFromRenderedText("Piece color ", color);
-	mBoardColorText.loadFromRenderedText("Board color ", color);
+	mPieceColorText.loadFromRenderedText("Piece color ");
+	mBoardColorText.loadFromRenderedText("Board color ");
 	
 	//set positions
 	static const int HEIGHT_PADDING = 20;

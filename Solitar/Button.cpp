@@ -56,5 +56,5 @@ void Button::render()
 
 bool Button::clicked()
 {
-	return !bBlocked && bActive && gInputManager.isMouseInBox(x, y, bWidth, bHeight) && gInputManager.isKeyPressed(SDL_BUTTON_LEFT);
+	return !bBlocked && bActive && gInputManager.isMouseInBox(x, y, bWidth, bHeight) && gInputManager.wasKeyReleased(SDL_BUTTON_LEFT);
 }

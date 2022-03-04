@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "LTexture.h"
 #include "Button.h"
+#include "Slider.h"
 
 class BoardSizeMenuState : public GameState
 {
@@ -33,14 +34,8 @@ private:
 
 	Button mBackButton;
 	Button mContinueButton;
+	Slider mValueSlider;
 
 	//text stuff
 	LTexture infoText;
-	LTexture nText;
-
-	LTexture inputTextTexture;
-
-	//TODO: just replace with slider
-	std::string inputText = "";
-	bool renderText = false;
 };

@@ -233,7 +233,7 @@ void Board::update(BoardMode mode)
 		makeComputerMove();
 		mCurrentPlayer = 0;
 	}
-	if (gInputManager.isMouseInBox(x, y, bWidth, bHeight) && gInputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+	if (gInputManager.isMouseInBox(x, y, bWidth, bHeight) && gInputManager.wasKeyReleased(SDL_BUTTON_LEFT)) {
 
 		glm::vec2 mouseCoords = gInputManager.getMouseCoords();
 		int row = (mouseCoords.y - y) / (bHeight / mBoardSize);

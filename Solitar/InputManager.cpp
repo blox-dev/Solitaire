@@ -37,9 +37,14 @@ bool InputManager::isKeyDown(unsigned int keyID)
 	return (it == _keyMap.end()) ? false : it->second;
 }
 
-bool InputManager::isKeyPressed(unsigned int keyID)
+bool InputManager::wasKeyReleased(unsigned int keyID)
 {
 	return !isKeyDown(keyID) && wasKeyDown(keyID);
+}
+
+bool InputManager::wasKeyPressed(unsigned int keyID)
+{
+	return isKeyDown(keyID) && !wasKeyDown(keyID);
 }
 
 bool InputManager::wasKeyDown(unsigned int keyID)

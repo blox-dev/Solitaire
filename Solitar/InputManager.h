@@ -22,10 +22,11 @@ public:
 	// returns true if the key is held down
 	bool isKeyDown(unsigned int keyID);
 
-	// Returns true if the key was just pressed
-	// maybe wasKeyPressed
-	bool isKeyPressed(unsigned int keyID);
+	// Returns true if the key was just release
+	bool wasKeyReleased(unsigned int keyID);
 
+	// Returns true if the key was just pressed
+	bool wasKeyPressed(unsigned int keyID);
 private:
 	// returns true if the key was just released
 	bool wasKeyDown(unsigned int keyID);

@@ -12,9 +12,7 @@ void BoardSizeMenuState::Init()
 	printf("BoardSizeMenuState Init\n");
 
 
-	infoText.loadFromRenderedText("Type the desired board size (" + std::to_string(MIN_BOARD_SIZE) + " <= n <= " + std::to_string(MAX_BOARD_SIZE) + ")");
-	nText.loadFromRenderedText("n=");
-	inputTextTexture.loadFromRenderedText("");
+	infoText.loadFromRenderedText("Choose board size: ");
 
 	mContinueButton.init(
 		gCommonTextures.button,
@@ -38,9 +36,10 @@ void BoardSizeMenuState::Init()
 		gScreenWidth * 0.15,
 		gScreenHeight * 0.1
 	);
-	
-	// blocked until the boardSize is in range
-	mContinueButton.setBlocked(true);
+
+	mValueSlider.init(MIN_BOARD_SIZE, MAX_BOARD_SIZE);
+
+	mValueSlider.setPos(5 + infoText.tWidth, 5, gScreenWidth - 10 - infoText.tWidth, infoText.tHeight);
 
 	mBackButton.setPos(
 		gScreenWidth * 0.05,
@@ -49,7 +48,7 @@ void BoardSizeMenuState::Init()
 		gScreenHeight * 0.1
 	);
 
-	gBoard.setBoardSize(1);
+	gBoard.setBoardSize(4);
 
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
@@ -65,8 +64,6 @@ void BoardSizeMenuState::Cleanup()
 	printf("BoardSizeMenuState Cleanup\n");
 
 	infoText.free();
-	nText.free();
-	inputTextTexture.free();
 }
 
 void BoardSizeMenuState::Pause()
@@ -92,62 +89,20 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 		case SDL_MOUSEBUTTONUP:
 			gInputManager.releaseKey(event.button.button);
 			break;
-		case SDL_KEYDOWN:
-			if (event.key.keysym.sym == SDLK_BACKSPACE && inputText.length() > 0)
-			{
-				//remove last character
-				inputText.pop_back();
-				renderText = true;
-
-				if (inputText.empty())
-					mContinueButton.setBlocked(true);
-				else if (stoi(inputText) < MIN_BOARD_SIZE || stoi(inputText) > MAX_BOARD_SIZE)
-					mContinueButton.setBlocked(true);
-				else mContinueButton.setBlocked(false);
-			}
-			else if (event.key.keysym.sym >= SDLK_0 && event.key.keysym.sym <= SDLK_9)
-			{
-				
-				inputText += event.key.keysym.sym;
-
-				if (stoi(inputText) > MAX_BOARD_SIZE)
-					inputText.pop_back();
-
-				if (inputText.empty())
-					mContinueButton.setBlocked(true);
-				else if (stoi(inputText) >= MIN_BOARD_SIZE && stoi(inputText) <= MAX_BOARD_SIZE)
-					mContinueButton.setBlocked(false);
-				else mContinueButton.setBlocked(true);
-
-				renderText = true;
-			}
-			break;
-
 		case SDL_QUIT:
 			game->Quit();
 			break;
 		}
 	}
 
-	if (renderText) {
-		// bad implementation probably
-		renderText = false;
-		if (inputText.empty())
-			inputTextTexture.loadFromRenderedText(" ", SDL_Color{255,255,255,255});
-		else
-			inputTextTexture.loadFromRenderedText(inputText, SDL_Color{ 255,255,255,255 });
-	
-		if (inputText.empty())
-			gBoardSize = 1;
-		else gBoardSize = stoi(inputText);
+	mValueSlider.update();
 
-		gBoard.setBoardSize(gBoardSize);
-	}
+	gBoard.setBoardSize(mValueSlider.getValue());
 
 	if (mContinueButton.clicked())
 	{
-		gBoardSize = stoi(inputText);
-		gBoard.setBoardSize(gBoardSize);
+		gBoardSize = mValueSlider.getValue();
+		gBoard.setBoardSize(mValueSlider.getValue());
 		gBoard.reset();
 
 		game->PushState(BoardShapeMenuState::Instance());
@@ -158,6 +113,8 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 	}
 }
 
+
+
 void BoardSizeMenuState::Update(GameEngine* game)
 {
 }
@@ -165,10 +122,8 @@ void BoardSizeMenuState::Update(GameEngine* game)
 void BoardSizeMenuState::Draw(GameEngine* game)
 {
 	infoText.render(5, 5, 1.0f);
-	
-	nText.render(5, 5 + infoText.tHeight, 1.0f);
 
-	inputTextTexture.render(5 + nText.tWidth, 5 + infoText.tHeight, 1.0f);
+	mValueSlider.render();
 
 	gBoard.draw(BoardMode::EMPTY);
 

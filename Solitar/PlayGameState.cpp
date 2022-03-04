@@ -10,17 +10,21 @@ PlayGameState PlayGameState::mPlayGameState;
 
 void PlayGameState::Init()
 {
-	printf("BoardShapeMenuState Init\n");
+	if (gBoard.isComputerPlaying())
+	{
+		mPlayer1Text.loadFromRenderedText("It's your turn");
+		mPlayer1WinText.loadFromRenderedText("You win!");
+		mScoreText.loadFromRenderedText("You 0 : 0 Comp");
+	}
+	else {
+		mPlayer1Text.loadFromRenderedText("It's player 1's turn");
+		mPlayer1WinText.loadFromRenderedText("Player 1 wins!");
+		mScoreText.loadFromRenderedText("P1 0 : 0 P2");
+	}
 
-	mPlayer1Text.loadFromRenderedText("It's player 1's turn");
 	mPlayer2Text.loadFromRenderedText("It's player 2's turn");
 	mComputerText.loadFromRenderedText("It's the computer's turn");
 
-	if(gBoard.isComputerPlaying())
-		mScoreText.loadFromRenderedText("You 0 : 0 Comp");
-	else mScoreText.loadFromRenderedText("P1 0 : 0 P2");
-
-	mPlayer1WinText.loadFromRenderedText("Player 1 wins!");
 	mPlayer2WinText.loadFromRenderedText("Player 2 wins!");
 	mComputerWinText.loadFromRenderedText("The computer wins!");
 	mDrawText.loadFromRenderedText("It's a draw!");
@@ -33,14 +37,19 @@ void PlayGameState::Init()
 		"Main menu"
 	);
 
+	mBackButton.setActive(false);
+
+	InitPos();
+}
+
+void PlayGameState::InitPos()
+{
 	mBackButton.setPos(
 		gScreenWidth * 0.75,
 		gScreenHeight * 0,
 		gScreenWidth * 0.2,
 		gScreenHeight * 0.1
 	);
-
-	mBackButton.setActive(false);
 
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
@@ -52,8 +61,6 @@ void PlayGameState::Init()
 
 void PlayGameState::Cleanup()
 {
-	printf("BoardShapeMenuState Cleanup\n");
-
 	// free text
 	mPlayer1Text.free();
 	mPlayer2Text.free();
@@ -73,6 +80,7 @@ void PlayGameState::Pause()
 
 void PlayGameState::Resume()
 {
+	InitPos();
 }
 
 void PlayGameState::HandleEvents(GameEngine* game)
@@ -81,6 +89,23 @@ void PlayGameState::HandleEvents(GameEngine* game)
 
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
+		case SDL_WINDOWEVENT:
+			switch (event.window.event)
+			{
+				//Get new dimensions and repaint on window size change
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+				gScreenWidth = event.window.data1;
+				gScreenHeight = event.window.data2;
+				InitPos();
+				SDL_RenderPresent(gRenderer);
+				break;
+
+				//Repaint on exposure
+			case SDL_WINDOWEVENT_EXPOSED:
+				SDL_RenderPresent(gRenderer);
+				break;
+			}
+			break;
 		case SDL_MOUSEMOTION:
 			gInputManager.setMouseCoords(event.motion.x, event.motion.y);
 			break;
@@ -106,16 +131,12 @@ void PlayGameState::HandleEvents(GameEngine* game)
 			mScoreText.loadFromRenderedText("You " + std::to_string(score1) + " : " + std::to_string(score2) + " Comp", SDL_Color{ 255,255,255,255 });
 		else mScoreText.loadFromRenderedText("P1 " + std::to_string(score1) + " : " + std::to_string(score2) + " P2", SDL_Color{ 255,255,255,255 });
 		gBoard.setUpdateScores(false);
-
-		//SDL_RenderPresent(gRenderer);
 	}
 
 	if (mBackButton.clicked())
 	{
 		game->ChangeState(MenuState::Instance());
 	}
-
-	
 }
 
 void PlayGameState::Update(GameEngine* game)

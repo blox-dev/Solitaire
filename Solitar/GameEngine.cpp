@@ -27,8 +27,6 @@ TTF_Font* gRobotoFont = nullptr;
 
 void GameEngine::Init(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags)
 {
-	printf("GameEngine Init\n");
-
 	mRunning = true;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -148,8 +146,6 @@ void GameEngine::Cleanup()
 		states.back()->Cleanup();
 		states.pop_back();
 	}
-
-	printf("GameEngine Cleanup\n");
 
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mSDLWindow);

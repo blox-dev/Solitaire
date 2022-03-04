@@ -12,15 +12,10 @@ MenuState MenuState::mMenuState;
 
 void MenuState::Init()
 {
-	printf("MenuState Init\n");
-
-
 	//title
 	mTitleImage.loadFromFile("textures/Title.png");
 
-	int divHeight = gScreenHeight / 13;
-	int divWidth = gScreenWidth / 6;
-
+	//buttons
 	mOnePlayerButton.init(
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
@@ -58,6 +53,14 @@ void MenuState::Init()
 		gCommonTextures.buttonBlocked,
 		"Quit game"
 	);
+
+	InitPos();
+}
+
+void MenuState::InitPos()
+{
+	int divHeight = gScreenHeight / 13;
+	int divWidth = gScreenWidth / 6;
 
 	mOnePlayerButton.setPos(
 		gScreenWidth / 2 - divWidth,
@@ -97,18 +100,17 @@ void MenuState::Init()
 
 void MenuState::Cleanup()
 {
-	printf("MenuState Cleanup\n");
 	mTitleImage.free();
 }
 
 void MenuState::Pause()
 {
-	printf("MenuState Pause\n");
+
 }
 
 void MenuState::Resume()
 {
-	printf("MenuState Resume\n");
+	InitPos();
 }
 
 void MenuState::HandleEvents(GameEngine* game)
@@ -125,6 +127,7 @@ void MenuState::HandleEvents(GameEngine* game)
 			case SDL_WINDOWEVENT_SIZE_CHANGED:
 				gScreenWidth = event.window.data1;
 				gScreenHeight = event.window.data2;
+				InitPos();
 				SDL_RenderPresent(gRenderer);
 				break;
 

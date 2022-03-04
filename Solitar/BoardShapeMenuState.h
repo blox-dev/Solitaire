@@ -7,6 +7,9 @@
 
 class BoardShapeMenuState : public GameState
 {
+private:
+	void InitPos();
+
 public:
 	void Init() override;
 	void Cleanup() override;

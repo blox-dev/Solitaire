@@ -12,8 +12,6 @@ SettingsState SettingsState::mSettingsState;
 
 void SettingsState::Init()
 {
-	printf("SettingsState Init\n");
-
 	//colors
 
 	//black
@@ -83,10 +81,13 @@ void SettingsState::Init()
 
 	mPieceColorText.loadFromRenderedText("Piece color ");
 	mBoardColorText.loadFromRenderedText("Board color ");
-	
+}
+
+void SettingsState::InitPos()
+{
 	//set positions
-	static const int HEIGHT_PADDING = 20;
-	static const int WIDTH_PADDING = 5;
+	const int HEIGHT_PADDING = 20;
+	const int WIDTH_PADDING = 5;
 
 	mBoardColorLeftArrow.setPos(
 		WIDTH_PADDING + mBoardColorText.tWidth,
@@ -96,7 +97,7 @@ void SettingsState::Init()
 	);
 
 	mBoardColorRightArrow.setPos(
-		WIDTH_PADDING*3 + mBoardColorText.tWidth + mBoardColorText.tHeight *2,
+		WIDTH_PADDING * 3 + mBoardColorText.tWidth + mBoardColorText.tHeight * 2,
 		HEIGHT_PADDING,
 		mBoardColorText.tHeight,
 		mBoardColorText.tHeight
@@ -104,13 +105,13 @@ void SettingsState::Init()
 
 	mPieceColorLeftArrow.setPos(
 		WIDTH_PADDING + mPieceColorText.tWidth,
-		HEIGHT_PADDING*2 + mBoardColorText.tHeight,
+		HEIGHT_PADDING * 2 + mBoardColorText.tHeight,
 		mPieceColorText.tHeight,
 		mPieceColorText.tHeight
 	);
 
 	mPieceColorRightArrow.setPos(
-		WIDTH_PADDING*3 + mPieceColorText.tWidth + 2*mPieceColorText.tHeight,
+		WIDTH_PADDING * 3 + mPieceColorText.tWidth + 2 * mPieceColorText.tHeight,
 		HEIGHT_PADDING * 2 + mBoardColorText.tHeight,
 		mPieceColorText.tHeight,
 		mPieceColorText.tHeight
@@ -126,20 +127,18 @@ void SettingsState::Init()
 
 void SettingsState::Cleanup()
 {
-	printf("SettingsState Cleanup\n");
-
 	mBoardColorText.free();
 	mPieceColorText.free();
 }
 
 void SettingsState::Pause()
 {
-	printf("SettingsState Pause\n");
+
 }
 
 void SettingsState::Resume()
 {
-	printf("SettingsState Resume\n");
+	InitPos();
 }
 
 void SettingsState::HandleEvents(GameEngine* game)
@@ -156,6 +155,7 @@ void SettingsState::HandleEvents(GameEngine* game)
 			case SDL_WINDOWEVENT_SIZE_CHANGED:
 				gScreenWidth = event.window.data1;
 				gScreenHeight = event.window.data2;
+				InitPos();
 				SDL_RenderPresent(gRenderer);
 				break;
 

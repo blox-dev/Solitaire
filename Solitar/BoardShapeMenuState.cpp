@@ -10,8 +10,6 @@ BoardShapeMenuState BoardShapeMenuState::mBoardShapeMenuState;
 
 void BoardShapeMenuState::Init()
 {
-	printf("BoardShapeMenuState Init\n");
-
 	infoText.loadFromRenderedText("Select unplayable tiles:");
 	
 	mContinueButton.init(
@@ -28,7 +26,11 @@ void BoardShapeMenuState::Init()
 		gCommonTextures.buttonBlocked,
 		"Back"
 	);
+	InitPos();
+}
 
+void BoardShapeMenuState::InitPos()
+{
 	mContinueButton.setPos(
 		gScreenWidth * 0.8,
 		gScreenHeight * 0.85,
@@ -42,7 +44,7 @@ void BoardShapeMenuState::Init()
 		gScreenWidth * 0.15,
 		gScreenHeight * 0.1
 	);
-	
+
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
 		gScreenHeight * 0.1,
@@ -53,8 +55,6 @@ void BoardShapeMenuState::Init()
 
 void BoardShapeMenuState::Cleanup()
 {
-	printf("BoardShapeMenuState Cleanup\n");
-
 	infoText.free();
 }
 
@@ -64,6 +64,7 @@ void BoardShapeMenuState::Pause()
 
 void BoardShapeMenuState::Resume()
 {
+	InitPos();
 }
 
 void BoardShapeMenuState::HandleEvents(GameEngine* game)
@@ -72,6 +73,23 @@ void BoardShapeMenuState::HandleEvents(GameEngine* game)
 
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
+		case SDL_WINDOWEVENT:
+			switch (event.window.event)
+			{
+				//Get new dimensions and repaint on window size change
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+				gScreenWidth = event.window.data1;
+				gScreenHeight = event.window.data2;
+				InitPos();
+				SDL_RenderPresent(gRenderer);
+				break;
+
+				//Repaint on exposure
+			case SDL_WINDOWEVENT_EXPOSED:
+				SDL_RenderPresent(gRenderer);
+				break;
+			}
+			break;
 		case SDL_MOUSEMOTION:
 			gInputManager.setMouseCoords(event.motion.x, event.motion.y);
 			break;

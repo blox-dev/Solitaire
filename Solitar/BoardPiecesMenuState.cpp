@@ -10,8 +10,6 @@ BoardPiecesMenuState BoardPiecesMenuState::mBoardPiecesMenuState;
 
 void BoardPiecesMenuState::Init()
 {
-	printf("BoardShapeMenuState Init\n");
-
 	infoText.loadFromRenderedText("Place pieces on the board (at least one, at least one empty tile)");
 
 	mBackButton.init(
@@ -43,9 +41,14 @@ void BoardPiecesMenuState::Init()
 		gCommonTextures.buttonHighlighted,
 		gCommonTextures.buttonBlocked,
 		"Start game");
-	
-	//-------------
 
+	mContinueButton.setBlocked(true);
+
+	InitPos();
+}
+
+void BoardPiecesMenuState::InitPos()
+{
 	mBackButton.setPos(
 		gScreenWidth * 0.05,
 		gScreenHeight * 0.85,
@@ -74,8 +77,6 @@ void BoardPiecesMenuState::Init()
 		gScreenHeight * 0.1
 	);
 
-	mContinueButton.setBlocked(true);
-
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
 		gScreenHeight * 0.1,
@@ -86,8 +87,6 @@ void BoardPiecesMenuState::Init()
 
 void BoardPiecesMenuState::Cleanup()
 {
-	printf("BoardShapeMenuState Cleanup\n");
-
 	infoText.free();
 }
 
@@ -97,6 +96,7 @@ void BoardPiecesMenuState::Pause()
 
 void BoardPiecesMenuState::Resume()
 {
+	InitPos();
 }
 
 void BoardPiecesMenuState::HandleEvents(GameEngine* game)
@@ -113,6 +113,23 @@ void BoardPiecesMenuState::HandleEvents(GameEngine* game)
 			break;
 		case SDL_MOUSEBUTTONUP:
 			gInputManager.releaseKey(event.button.button);
+			break;
+		case SDL_WINDOWEVENT:
+			switch (event.window.event)
+			{
+				//Get new dimensions and repaint on window size change
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+				gScreenWidth = event.window.data1;
+				gScreenHeight = event.window.data2;
+				InitPos();
+				SDL_RenderPresent(gRenderer);
+				break;
+
+				//Repaint on exposure
+			case SDL_WINDOWEVENT_EXPOSED:
+				SDL_RenderPresent(gRenderer);
+				break;
+			}
 			break;
 		case SDL_QUIT:
 			game->Quit();
@@ -162,8 +179,8 @@ void BoardPiecesMenuState::Draw(GameEngine* game)
 	mBackButton.render();
 
 	mEmptyButton.render();
-	
+
 	mFillButton.render();
-	
+
 	mContinueButton.render();
 }

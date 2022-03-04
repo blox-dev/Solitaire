@@ -8,10 +8,18 @@
 
 InstructionsState InstructionsState::mInstructionsState;
 
+void InstructionsState::InitPos()
+{
+	mBackButton.setPos(
+		gScreenWidth * 0.05,
+		gScreenHeight * 0.85,
+		gScreenWidth * 0.15,
+		gScreenHeight * 0.1
+	);
+}
+
 void InstructionsState::Init()
 {
-	printf("InstructionsState Init\n");
-
 	textureNum = 0;
 
 	mBackButton.init(
@@ -22,12 +30,7 @@ void InstructionsState::Init()
 		"Back"
 	);
 
-	mBackButton.setPos(
-		gScreenWidth * 0.05,
-		gScreenHeight * 0.85,
-		gScreenWidth * 0.15,
-		gScreenHeight * 0.1
-	);
+	InitPos();
 
 	instructionsText = 
 		"Solitaire can be played by two players or by one player and the computer. \
@@ -67,17 +70,17 @@ void InstructionsState::Init()
 
 void InstructionsState::Cleanup()
 {
-	printf("InstructionsState Cleanup\n");
+
 }
 
 void InstructionsState::Pause()
 {
-	printf("InstructionsState Pause\n");
+
 }
 
 void InstructionsState::Resume()
 {
-	printf("InstructionsState Resume\n");
+	InitPos();
 }
 
 void InstructionsState::HandleEvents(GameEngine* game)
@@ -94,6 +97,7 @@ void InstructionsState::HandleEvents(GameEngine* game)
 			case SDL_WINDOWEVENT_SIZE_CHANGED:
 				gScreenWidth = event.window.data1;
 				gScreenHeight = event.window.data2;
+				InitPos();
 				SDL_RenderPresent(gRenderer);
 				break;
 

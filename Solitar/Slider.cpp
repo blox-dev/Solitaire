@@ -57,13 +57,11 @@ void Slider::update()
 	//on slider touch
 	if (mActive && gInputManager.isMouseInBox(x, y, sWidth, sHeight) && gInputManager.wasKeyPressed(SDL_BUTTON_LEFT))
 	{
-		printf("slider pressed woo\n");
 		mDragged = true;
 	}
 	// on slider drop
 	if (mActive && gInputManager.wasKeyReleased(SDL_BUTTON_LEFT))
 	{
-		printf("slider maybe released :(\n");
 		mDragged = false;
 	}
 	//if active

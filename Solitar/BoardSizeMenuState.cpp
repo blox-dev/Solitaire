@@ -9,9 +9,6 @@ BoardSizeMenuState BoardSizeMenuState::mBoardSizeMenuState;
 
 void BoardSizeMenuState::Init()
 {
-	printf("BoardSizeMenuState Init\n");
-
-
 	infoText.loadFromRenderedText("Choose board size: ");
 
 	mContinueButton.init(
@@ -30,14 +27,21 @@ void BoardSizeMenuState::Init()
 		"Back"
 	);
 
+	mValueSlider.init(MIN_BOARD_SIZE, MAX_BOARD_SIZE);
+
+	gBoard.setBoardSize(4);
+
+	InitPos();
+}
+
+void BoardSizeMenuState::InitPos()
+{
 	mContinueButton.setPos(
 		gScreenWidth * 0.8,
 		gScreenHeight * 0.85,
 		gScreenWidth * 0.15,
 		gScreenHeight * 0.1
 	);
-
-	mValueSlider.init(MIN_BOARD_SIZE, MAX_BOARD_SIZE);
 
 	mValueSlider.setPos(5 + infoText.tWidth, 5, gScreenWidth - 10 - infoText.tWidth, infoText.tHeight);
 
@@ -48,21 +52,16 @@ void BoardSizeMenuState::Init()
 		gScreenHeight * 0.1
 	);
 
-	gBoard.setBoardSize(4);
-
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
 		gScreenHeight * 0.1,
 		gScreenWidth * 0.75,
 		gScreenHeight * 0.75
 	);
-
 }
 
 void BoardSizeMenuState::Cleanup()
 {
-	printf("BoardSizeMenuState Cleanup\n");
-
 	infoText.free();
 }
 
@@ -72,6 +71,7 @@ void BoardSizeMenuState::Pause()
 
 void BoardSizeMenuState::Resume()
 {
+	InitPos();
 }
 
 void BoardSizeMenuState::HandleEvents(GameEngine* game)
@@ -80,6 +80,23 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
+		case SDL_WINDOWEVENT:
+			switch (event.window.event)
+			{
+				//Get new dimensions and repaint on window size change
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+				gScreenWidth = event.window.data1;
+				gScreenHeight = event.window.data2;
+				InitPos();
+				SDL_RenderPresent(gRenderer);
+				break;
+
+				//Repaint on exposure
+			case SDL_WINDOWEVENT_EXPOSED:
+				SDL_RenderPresent(gRenderer);
+				break;
+			}
+			break;
 		case SDL_MOUSEMOTION:
 			gInputManager.setMouseCoords(event.motion.x, event.motion.y);
 			break;

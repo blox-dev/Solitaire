@@ -226,13 +226,13 @@ bool Board::isValid()
 
 void Board::update(BoardMode mode)
 {
-	if(mode == BoardMode::PLAY)
-	if (mCurrentPlayer == 1 && mIsComputerPlaying)
-	{
-		//it's the computer's turn
-		makeComputerMove();
-		mCurrentPlayer = 0;
-	}
+	if (mode == BoardMode::PLAY)
+		if (mCurrentPlayer == 1 && mIsComputerPlaying)
+		{
+			//it's the computer's turn
+			makeComputerMove();
+			mCurrentPlayer = 0;
+		}
 	if (gInputManager.isMouseInBox(x, y, bWidth, bHeight) && gInputManager.wasKeyReleased(SDL_BUTTON_LEFT)) {
 
 		glm::vec2 mouseCoords = gInputManager.getMouseCoords();
@@ -259,19 +259,15 @@ void Board::update(BoardMode mode)
 			case BoardMode::PLAY:
 				//game logic
 				// if user just clicks around
-				if (isHighlight == false) {
-					// and selects a valid piece
-					if (mBoard[row][col] == 1)
+				// and selects a valid piece
+				if (!moveStarted && mBoard[row][col] == 1)
+				{
+					clearHighLight();
+					if (highlight(row, col))
 					{
-						clearHighLight();
-						if (highlight(row, col))
-						{
-							isHighlight = true;
-							mSelectedPiece = { row,col };
-						}
+						isHighlight = true;
+						mSelectedPiece = { row,col };
 					}
-
-					//printf("cPlayer: %d. Scores: (%d, %d)\n", mCurrentPlayer, mScores[0], mScores[1]);
 				}
 				// if the player presses a highlighted piece
 				if (isHighlight && mBoard[row][col] == 3)
@@ -288,17 +284,17 @@ void Board::update(BoardMode mode)
 					// switch players
 					mCurrentPlayer = 1 - mCurrentPlayer;
 
+					moveStarted = false;
 					// if there are however more moves to be made
 					if (highlight(row, col))
 					{
+						moveStarted = true;
 						isHighlight = true;
 						mSelectedPiece = { row,col };
 
 						//switch the players again so that the current player can continue his play
 						mCurrentPlayer = 1 - mCurrentPlayer;
 					}
-
-					//printf("cPlayer: %d. Scores: (%d, %d)\n", mCurrentPlayer, mScores[0], mScores[1]);
 				}
 				break;
 			}
@@ -399,11 +395,6 @@ void Board::makeComputerMove()
 					bestY = j;
 				}
 			}
-	//print best move
-	printf("Best move is from (%d, %d):",bestX, bestY);
-	for (int i = 1; i <= bestMove[0]; ++i)
-		printf("%d ", bestMove[i]);
-	printf("\n");
 
 	//do the move
 	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
@@ -420,7 +411,7 @@ void Board::makeComputerMove()
 
 		makeMove(currentX, currentY, nextX, nextY);
 		mScores[1]++;
-		
+
 		SDL_Delay(750);
 		draw(BoardMode::PLAY);
 		SDL_RenderPresent(gRenderer);
@@ -430,7 +421,7 @@ void Board::makeComputerMove()
 	}
 }
 // initial step = 1
-void Board::findBestMoveFromPos(int i, int j, int* currentMove, int* bestMove, int step, bool &bestChanged) {
+void Board::findBestMoveFromPos(int i, int j, int* currentMove, int* bestMove, int step, bool& bestChanged) {
 	for (int k = 0; k < 4; ++k)
 	{
 		int nexti = i + 2 * di[k];

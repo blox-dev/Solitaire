@@ -59,7 +59,7 @@ public:
 
 	void makeComputerMove();
 private:
-	
+	bool moveStarted = false;
 	bool mIsComputerPlaying = false;
 	
 	int mScores[2] = { 0,0 };

@@ -45,17 +45,17 @@ void PlayGameState::Init()
 void PlayGameState::InitPos()
 {
 	mBackButton.setPos(
-		gScreenWidth * 0.75,
-		gScreenHeight * 0,
-		gScreenWidth * 0.2,
+		gScreenWidth * 0.05,
+		gScreenHeight * 0.85,
+		gScreenWidth * 0.15,
 		gScreenHeight * 0.1
 	);
 
 	gBoard.setPosition(
 		gScreenWidth * 0.1,
 		gScreenHeight * 0.1,
-		gScreenWidth * 0.8,
-		gScreenHeight * 0.8
+		gScreenWidth * 0.75,
+		gScreenHeight * 0.75
 	);
 }
 

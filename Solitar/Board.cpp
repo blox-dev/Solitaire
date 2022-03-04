@@ -218,16 +218,21 @@ bool Board::isValid()
 				oneFilled = true;
 
 			if (oneEmpty && oneFilled)
-				return true;
+				return !hasNoMovesLeft();
 		}
 
-	//TODO: doesn't always work
-	//if it has a move left, it is valid
-	return !hasNoMovesLeft();
+	return false;
 }
 
 void Board::update(BoardMode mode)
 {
+	if(mode == BoardMode::PLAY)
+	if (mCurrentPlayer == 1 && mIsComputerPlaying)
+	{
+		//it's the computer's turn
+		makeComputerMove();
+		mCurrentPlayer = 0;
+	}
 	if (gInputManager.isMouseInBox(x, y, bWidth, bHeight) && gInputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 
 		glm::vec2 mouseCoords = gInputManager.getMouseCoords();
@@ -253,7 +258,6 @@ void Board::update(BoardMode mode)
 				break;
 			case BoardMode::PLAY:
 				//game logic
-
 				// if user just clicks around
 				if (isHighlight == false) {
 					// and selects a valid piece
@@ -305,7 +309,7 @@ void Board::update(BoardMode mode)
 bool Board::hasNoMovesLeft()
 {
 	// returns true if there is at least one move left
-	for(int row = 0; row< mBoardSize ; ++row)
+	for (int row = 0; row < mBoardSize; ++row)
 		for (int col = 0; col < mBoardSize; ++col)
 			if (mBoard[row][col] == 1)
 			{
@@ -362,6 +366,101 @@ void Board::reset()
 	for (int i = 0; i < mBoardSize; ++i)
 		for (int j = 0; j < mBoardSize; ++j)
 			mBoard[i][j] = 0;
+}
+
+void Board::makeComputerMove()
+{
+	if (hasNoMovesLeft())
+		return;
+
+	int bestScore = 0;
+
+	// encoded as such
+	// 0 - move length
+	// 1+ - direction in which to jump - 0 - N, 1 - E, 2 - S, 3 - W
+	int currentMove[100]{ -1 };
+
+	int bestMove[100]{ -1 };
+
+	int bestX = 0, bestY = 0;
+
+	bool bestChanged = false;
+
+	//compute the best move
+	for (int i = 0; i < gBoardSize; ++i)
+		for (int j = 0; j < gBoardSize; ++j)
+			if (mBoard[i][j] == 1)
+			{
+				findBestMoveFromPos(i, j, &currentMove[0], &bestMove[0], 1, bestChanged);
+				if (bestChanged)
+				{
+					bestChanged = false;
+					bestX = i;
+					bestY = j;
+				}
+			}
+	//print best move
+	printf("Best move is from (%d, %d):",bestX, bestY);
+	for (int i = 1; i <= bestMove[0]; ++i)
+		printf("%d ", bestMove[i]);
+	printf("\n");
+
+	//do the move
+	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
+
+	mUpdateScores = true;
+
+	int currentX = bestX;
+	int currentY = bestY;
+	int nextX, nextY;
+	for (int i = 1; i <= bestMove[0]; ++i)
+	{
+		nextX = currentX + di[bestMove[i]] * 2;
+		nextY = currentY + dj[bestMove[i]] * 2;
+
+		makeMove(currentX, currentY, nextX, nextY);
+		mScores[1]++;
+		
+		SDL_Delay(750);
+		draw(BoardMode::PLAY);
+		SDL_RenderPresent(gRenderer);
+
+		currentX = nextX;
+		currentY = nextY;
+	}
+}
+// initial step = 1
+void Board::findBestMoveFromPos(int i, int j, int* currentMove, int* bestMove, int step, bool &bestChanged) {
+	for (int k = 0; k < 4; ++k)
+	{
+		int nexti = i + 2 * di[k];
+		int nextj = j + 2 * dj[k];
+
+		//still inside the playing board
+		if (nexti >= 0 && nexti < gBoardSize && nextj >= 0 && nextj < gBoardSize)
+		{
+			//can jump over there
+			if (mBoard[i][j] == 1 &&
+				mBoard[i + (nexti - i) / 2][j + (nextj - j) / 2] == 1 &&
+				(mBoard[nexti][nextj] == 0 || mBoard[nexti][nextj] == 3))
+			{
+				currentMove[step] = k;
+				makeMove(i, j, nexti, nextj);
+				if (step > bestMove[0])
+				{
+					bestChanged = true;
+					//found new best
+					bestMove[0] = step;
+
+					for (int i = 1; i <= step; ++i)
+						bestMove[i] = currentMove[i];
+				}
+				findBestMoveFromPos(nexti, nextj, currentMove, bestMove, step + 1, bestChanged);
+				unmakeMove(i, j, nexti, nextj);
+				currentMove[step] = 0;
+			}
+		}
+	}
 }
 
 void Board::clearHighLight()
@@ -461,6 +560,41 @@ void Board::makeMove(int startRow, int startCol, int destRow, int destCol)
 		mBoard[startRow][startCol] = 0;
 		mBoard[startRow][startCol + difCol / 2] = 0;
 		mBoard[startRow][startCol + difCol] = 1;
+	}
+	else {
+		// shouldn't happen
+		printf("Not at all\n");
+		printf("%d, %d\n", difRow, difCol);
+	}
+}
+
+void Board::unmakeMove(int startRow, int startCol, int destRow, int destCol)
+{
+	int difRow = destRow - startRow;
+	int difCol = destCol - startCol;
+
+	// shouldn't happen
+	if (difRow && difCol) {
+		printf("Both /= 0 Why\n");
+		return;
+	}
+	// shouldn't happen
+	if (!(difRow || difCol)) {
+		printf("Both == 0 Why\n");
+		return;
+	}
+
+	if (difCol == 0 && abs(difRow) == 2)
+	{
+		mBoard[startRow][startCol] = 1;
+		mBoard[startRow + difRow / 2][startCol] = 1;
+		mBoard[startRow + difRow][startCol] = 0;
+	}
+	else if (abs(difCol) == 2 && difRow == 0)
+	{
+		mBoard[startRow][startCol] = 1;
+		mBoard[startRow][startCol + difCol / 2] = 1;
+		mBoard[startRow][startCol + difCol] = 0;
 	}
 	else {
 		// shouldn't happen

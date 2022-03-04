@@ -12,18 +12,18 @@ void PlayGameState::Init()
 {
 	printf("BoardShapeMenuState Init\n");
 
-	SDL_Color color{ 255,255,255,255 };
+	mPlayer1Text.loadFromRenderedText("It's player 1's turn");
+	mPlayer2Text.loadFromRenderedText("It's player 2's turn");
+	mComputerText.loadFromRenderedText("It's the computer's turn");
 
-	mPlayer1Text.loadFromRenderedText("It's player 1's turn", color);
-	mPlayer2Text.loadFromRenderedText("It's player 2's turn", color);
-	mComputerText.loadFromRenderedText("It's the computer's turn", color);
+	if(gBoard.isComputerPlaying())
+		mScoreText.loadFromRenderedText("You 0 : 0 Comp");
+	else mScoreText.loadFromRenderedText("P1 0 : 0 P2");
 
-	mScoreText.loadFromRenderedText("P1 0 : 0 P2", color);
-
-	mPlayer1WinText.loadFromRenderedText("Player 1 wins!", color);
-	mPlayer2WinText.loadFromRenderedText("Player 2 wins!", color);
-	mComputerWinText.loadFromRenderedText("The computer wins!", color);
-	mDrawText.loadFromRenderedText("It's a draw!", color);
+	mPlayer1WinText.loadFromRenderedText("Player 1 wins!");
+	mPlayer2WinText.loadFromRenderedText("Player 2 wins!");
+	mComputerWinText.loadFromRenderedText("The computer wins!");
+	mDrawText.loadFromRenderedText("It's a draw!");
 
 	mBackButton.init(
 		gCommonTextures.button,
@@ -96,12 +96,18 @@ void PlayGameState::HandleEvents(GameEngine* game)
 		}
 	}
 
+	gBoard.update(BoardMode::PLAY);
+
 	//if scores need to be updated
 	if (gBoard.updateScores()) {
 		int score1 = gBoard.getPlayer1Score();
 		int score2 = gBoard.getPlayer2Score();
-		mScoreText.loadFromRenderedText("P1 " + std::to_string(score1) + " : " + std::to_string(score2) + " P2", SDL_Color{ 255,255,255,255 });
+		if (gBoard.isComputerPlaying())
+			mScoreText.loadFromRenderedText("You " + std::to_string(score1) + " : " + std::to_string(score2) + " Comp", SDL_Color{ 255,255,255,255 });
+		else mScoreText.loadFromRenderedText("P1 " + std::to_string(score1) + " : " + std::to_string(score2) + " P2", SDL_Color{ 255,255,255,255 });
 		gBoard.setUpdateScores(false);
+
+		//SDL_RenderPresent(gRenderer);
 	}
 
 	if (mBackButton.clicked())
@@ -109,7 +115,7 @@ void PlayGameState::HandleEvents(GameEngine* game)
 		game->ChangeState(MenuState::Instance());
 	}
 
-	gBoard.update(BoardMode::PLAY);
+	
 }
 
 void PlayGameState::Update(GameEngine* game)

@@ -56,6 +56,8 @@ public:
 	
 	bool isComputerPlaying() { return mIsComputerPlaying; }
 	void setComputerPlaying(bool isComputerPlaying) { mIsComputerPlaying = isComputerPlaying; }
+
+	void makeComputerMove();
 private:
 	
 	bool mIsComputerPlaying = false;
@@ -73,9 +75,14 @@ private:
 	bool highlight(int row, int col);
 
 	void makeMove(int startRow, int startCol, int destRow, int destCol);
+	void unmakeMove(int startRow, int startCol, int destRow, int destCol);
 
-	double double_pi = 8.0 * atan(1);
-	
+	void findBestMoveFromPos(int i, int j, int* currentMove, int* bestMove, int step, bool& bestChanged);
+
+	const double double_pi = 8.0 * atan(1);
+	const int di[4] = {-1,0,1,0};
+	const int dj[4] = {0,1,0,-1};
+
 	// bad name, represents one piece
 	SDL_Vertex mVertices[3*TRIANGLES_PER_CIRCLE];
 

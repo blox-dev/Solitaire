@@ -32,7 +32,7 @@ void InstructionsState::Init()
 
 	InitPos();
 
-	instructionsText = 
+	instructionsText =
 		"Solitaire can be played by two players or by one player and the computer. \
 		A valid move is to jump a piece orthogonally over an adjacent piece into an empty hole two positions away and then to remove the jumped piece. \
 		Once there are no valid moves left, the player with the highest score wins!";
@@ -125,16 +125,14 @@ void InstructionsState::HandleEvents(GameEngine* game)
 			break;
 		}
 	}
-
-	if (mBackButton.clicked())
-	{
-		game->PopState();
-	}
 }
 
 void InstructionsState::Update(GameEngine* game)
 {
-
+	if (mBackButton.clicked())
+	{
+		game->PopState();
+	}
 }
 
 void InstructionsState::Draw(GameEngine* game)

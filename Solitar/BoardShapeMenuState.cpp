@@ -11,7 +11,7 @@ BoardShapeMenuState BoardShapeMenuState::mBoardShapeMenuState;
 void BoardShapeMenuState::Init()
 {
 	infoText.loadFromRenderedText("Select unplayable tiles:");
-	
+
 	mContinueButton.init(
 		"Continue",
 		gCommonTextures.button,
@@ -105,7 +105,10 @@ void BoardShapeMenuState::HandleEvents(GameEngine* game)
 			break;
 		}
 	}
+}
 
+void BoardShapeMenuState::Update(GameEngine* game)
+{
 	if (mContinueButton.clicked())
 	{
 		game->PushState(BoardPiecesMenuState::Instance());
@@ -116,10 +119,6 @@ void BoardShapeMenuState::HandleEvents(GameEngine* game)
 	}
 
 	gBoard.update(BoardMode::REMOVE);
-}
-
-void BoardShapeMenuState::Update(GameEngine* game)
-{
 }
 
 void BoardShapeMenuState::Draw(GameEngine* game)

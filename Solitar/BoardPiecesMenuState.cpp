@@ -138,7 +138,10 @@ void BoardPiecesMenuState::HandleEvents(GameEngine* game)
 			break;
 		}
 	}
+}
 
+void BoardPiecesMenuState::Update(GameEngine* game)
+{
 	if (gBoard.isValid())
 	{
 		mContinueButton.setBlocked(false);
@@ -166,10 +169,6 @@ void BoardPiecesMenuState::HandleEvents(GameEngine* game)
 	}
 
 	gBoard.update(BoardMode::PLACE);
-}
-
-void BoardPiecesMenuState::Update(GameEngine* game)
-{
 }
 
 void BoardPiecesMenuState::Draw(GameEngine* game)

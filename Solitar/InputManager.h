@@ -30,7 +30,7 @@ public:
 private:
 	// returns true if the key was just released
 	bool wasKeyDown(unsigned int keyID);
-	
+
 	std::unordered_map<unsigned int, bool> _keyMap;
 	std::unordered_map<unsigned int, bool> _previousKeyMap;
 	glm::vec2 _mouseCoords;

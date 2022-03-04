@@ -111,7 +111,12 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 			break;
 		}
 	}
+}
 
+
+
+void BoardSizeMenuState::Update(GameEngine* game)
+{
 	mValueSlider.update();
 
 	gBoard.setBoardSize(mValueSlider.getValue());
@@ -127,12 +132,6 @@ void BoardSizeMenuState::HandleEvents(GameEngine* game)
 	{
 		game->PopState();
 	}
-}
-
-
-
-void BoardSizeMenuState::Update(GameEngine* game)
-{
 }
 
 void BoardSizeMenuState::Draw(GameEngine* game)

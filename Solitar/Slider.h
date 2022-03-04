@@ -13,7 +13,7 @@ public:
 	void update();
 
 	void setPos(int x0, int y0, int width, int height) { x = x0; y = y0; sWidth = width; sHeight = height; };
-	
+
 	void init(int min, int max, LTexture* sliderTexture = nullptr, LTexture* notchTexture = nullptr);
 
 
@@ -29,7 +29,7 @@ private:
 	int maxValue = 0;
 
 
-	int x =0 , y = 0, sWidth = 0, sHeight = 0;
+	int x = 0, y = 0, sWidth = 0, sHeight = 0;
 
 	LTexture* sTexture = nullptr;
 	LTexture* sNotchTexture = nullptr;

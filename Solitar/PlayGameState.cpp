@@ -120,7 +120,10 @@ void PlayGameState::HandleEvents(GameEngine* game)
 			break;
 		}
 	}
+}
 
+void PlayGameState::Update(GameEngine* game)
+{
 	gBoard.update(BoardMode::PLAY);
 
 	//if scores need to be updated
@@ -137,10 +140,6 @@ void PlayGameState::HandleEvents(GameEngine* game)
 	{
 		game->ChangeState(MenuState::Instance());
 	}
-}
-
-void PlayGameState::Update(GameEngine* game)
-{
 }
 
 void PlayGameState::Draw(GameEngine* game)

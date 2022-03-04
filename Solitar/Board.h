@@ -19,26 +19,26 @@ public:
 	~Board();
 
 	void setBoardSize(int boardSize) { mBoardSize = boardSize; };
-	
+
 	void draw(BoardMode mode);
-	
+
 	//use SDL_RenderGeometry to render the pieces (circles) with triangles
 	//TODO: move this into Board.draw()
 	void drawPieces();
-	
+
 	void setPosition(int x0, int y0, int width, int height);
 
 	void setCell(int i, int j, int value) { mBoard[i][j] = value; };
-	
+
 	bool isValid();
 
 	void update(BoardMode mode);
 
 	bool hasNoMovesLeft();
-	
+
 	// fill all available spaces with pieces
 	void fill();
-	
+
 	// remove all pieces
 	void empty();
 
@@ -53,7 +53,7 @@ public:
 	bool updateScores() { return mUpdateScores; }
 
 	void setUpdateScores(bool updateScores) { mUpdateScores = updateScores; }
-	
+
 	bool isComputerPlaying() { return mIsComputerPlaying; }
 	void setComputerPlaying(bool isComputerPlaying) { mIsComputerPlaying = isComputerPlaying; }
 
@@ -61,7 +61,7 @@ public:
 private:
 	bool moveStarted = false;
 	bool mIsComputerPlaying = false;
-	
+
 	int mScores[2] = { 0,0 };
 	bool mUpdateScores = false;
 	int mCurrentPlayer = 0;
@@ -80,11 +80,11 @@ private:
 	void findBestMoveFromPos(int i, int j, int* currentMove, int* bestMove, int step, bool& bestChanged);
 
 	const double double_pi = 8.0 * atan(1);
-	const int di[4] = {-1,0,1,0};
-	const int dj[4] = {0,1,0,-1};
+	const int di[4] = { -1,0,1,0 };
+	const int dj[4] = { 0,1,0,-1 };
 
 	// bad name, represents one piece
-	SDL_Vertex mVertices[3*TRIANGLES_PER_CIRCLE];
+	SDL_Vertex mVertices[3 * TRIANGLES_PER_CIRCLE];
 
 
 	// bad name, represents the individual points of one piece

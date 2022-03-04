@@ -41,7 +41,7 @@ private:
 	int textureNum;
 
 	std::string instructionsText;
-	
+
 	Button mBackButton;
 };
 

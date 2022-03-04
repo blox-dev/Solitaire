@@ -15,7 +15,7 @@ void SettingsState::Init()
 	//colors
 
 	//black
-	hexStringToSDLColor(boardColors[0],"#000000");
+	hexStringToSDLColor(boardColors[0], "#000000");
 	//green
 	hexStringToSDLColor(boardColors[1], "#065535");
 	//grey
@@ -24,7 +24,7 @@ void SettingsState::Init()
 	hexStringToSDLColor(boardColors[3], "#003366");
 	//crimson red?
 	hexStringToSDLColor(boardColors[4], "#800000");
-	
+
 	//white
 	hexStringToSDLColor(pieceColors[0], "#ffffff");
 	//light yellow
@@ -69,7 +69,7 @@ void SettingsState::Init()
 		gCommonTextures.rightArrowHighlighted,
 		nullptr
 	);
-	
+
 	mBackButton.init(
 		"Back",
 		gCommonTextures.button,
@@ -186,7 +186,10 @@ void SettingsState::HandleEvents(GameEngine* game)
 			break;
 		}
 	}
+}
 
+void SettingsState::Update(GameEngine* game)
+{
 	if (mBackButton.clicked())
 	{
 		game->PopState();
@@ -223,11 +226,6 @@ void SettingsState::HandleEvents(GameEngine* game)
 	}
 }
 
-void SettingsState::Update(GameEngine* game)
-{
-
-}
-
 void SettingsState::Draw(GameEngine* game)
 {
 	static const int HEIGHT_PADDING = 20;
@@ -243,8 +241,8 @@ void SettingsState::Draw(GameEngine* game)
 	mBoardColorLeftArrow.render();
 	mBoardColorRightArrow.render();
 
-	SDL_Rect boardColorRect = { 
-		WIDTH_PADDING*2 + mBoardColorText.tWidth + mBoardColorText.tHeight,
+	SDL_Rect boardColorRect = {
+		WIDTH_PADDING * 2 + mBoardColorText.tWidth + mBoardColorText.tHeight,
 		HEIGHT_PADDING,
 		mBoardColorText.tHeight,
 		mBoardColorText.tHeight
@@ -265,8 +263,8 @@ void SettingsState::Draw(GameEngine* game)
 	mPieceColorRightArrow.render();
 
 	SDL_Rect pieceColorRect = {
-		WIDTH_PADDING*2 + mPieceColorText.tWidth + mPieceColorText.tHeight,
-		HEIGHT_PADDING*2 + mBoardColorText.tHeight,
+		WIDTH_PADDING * 2 + mPieceColorText.tWidth + mPieceColorText.tHeight,
+		HEIGHT_PADDING * 2 + mBoardColorText.tHeight,
 		mPieceColorText.tHeight,
 		mPieceColorText.tHeight
 	};

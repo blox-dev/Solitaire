@@ -83,7 +83,7 @@ void Slider::update()
 void Slider::init(int min, int max, LTexture* sliderTexture, LTexture* notchTexture)
 {
 	mActive = true;
-	
+
 	minValue = min;
 	maxValue = max;
 	mValue = min;

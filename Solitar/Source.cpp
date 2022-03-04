@@ -6,7 +6,7 @@ int main(int argc, char** argv)
 	GameEngine game;
 
 	// initialize the engine
-	game.Init("Engine Test v1.0", 800, 600, 0);
+	game.Init("Solitaire", 800, 600, 0);
 
 	// load the intro
 	game.ChangeState(MenuState::Instance());

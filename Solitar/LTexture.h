@@ -12,45 +12,45 @@
 class LTexture
 {
 public:
-    //Initializes variables
-    LTexture();
+	//Initializes variables
+	LTexture();
 
-    //Deallocates memory
-    ~LTexture();
+	//Deallocates memory
+	~LTexture();
 
-    //Loads image at specified path
-    bool loadFromFile(std::string path);
+	//Loads image at specified path
+	bool loadFromFile(std::string path);
 
-    //Creates image from font string
-    bool loadFromRenderedText(std::string textureText, SDL_Color textColor = {255,255,255,255});
+	//Creates image from font string
+	bool loadFromRenderedText(std::string textureText, SDL_Color textColor = { 255,255,255,255 });
 
-    //Deallocates texture
-    void free();
+	//Deallocates texture
+	void free();
 
-    //Set color modulation
-    void setColor(Uint8 red, Uint8 green, Uint8 blue);
+	//Set color modulation
+	void setColor(Uint8 red, Uint8 green, Uint8 blue);
 
-    //Set blending
-    void setBlendMode(SDL_BlendMode blending);
+	//Set blending
+	void setBlendMode(SDL_BlendMode blending);
 
-    //Set alpha modulation
-    void setAlpha(Uint8 alpha);
+	//Set alpha modulation
+	void setAlpha(Uint8 alpha);
 
-    //Renders normalized texture
-    void render(int x0, int y0, float scale = 1.0f, SDL_Rect* clip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    
-    //Renders texture at given point
-    void render(int x0, int y0, int width = 0, int height = 0, SDL_Rect* clip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	//Renders normalized texture
+	void render(int x0, int y0, float scale = 1.0f, SDL_Rect* clip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-    //Image dimensions
-    int tWidth;
-    int tHeight;
+	//Renders texture at given point
+	void render(int x0, int y0, int width = 0, int height = 0, SDL_Rect* clip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
+
+	//Image dimensions
+	int tWidth;
+	int tHeight;
 
 
 protected:
 
 private:
-    //The actual hardware texture
-    SDL_Texture* mTexture;
+	//The actual hardware texture
+	SDL_Texture* mTexture;
 };
 

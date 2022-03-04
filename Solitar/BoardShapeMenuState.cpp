@@ -13,18 +13,19 @@ void BoardShapeMenuState::Init()
 	infoText.loadFromRenderedText("Select unplayable tiles:");
 	
 	mContinueButton.init(
+		"Continue",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Continue");
+		gCommonTextures.buttonBlocked
+	);
 
 	mBackButton.init(
+		"Back",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Back"
+		gCommonTextures.buttonBlocked
 	);
 	InitPos();
 }

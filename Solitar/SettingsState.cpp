@@ -39,48 +39,51 @@ void SettingsState::Init()
 	//buttons
 
 	mBoardColorLeftArrow.init(
+		"",
 		gCommonTextures.leftArrow,
 		gCommonTextures.leftArrowPressed,
 		gCommonTextures.leftArrowHighlighted,
-		nullptr,
-		"");
+		nullptr
+	);
 
 	mPieceColorLeftArrow.init(
+		"",
 		gCommonTextures.leftArrow,
 		gCommonTextures.leftArrowPressed,
 		gCommonTextures.leftArrowHighlighted,
-		nullptr,
-		""
+		nullptr
 	);
 
 	mBoardColorRightArrow.init(
+		"",
 		gCommonTextures.rightArrow,
 		gCommonTextures.rightArrowPressed,
 		gCommonTextures.rightArrowHighlighted,
-		nullptr,
-		""
+		nullptr
 	);
 
 	mPieceColorRightArrow.init(
+		"",
 		gCommonTextures.rightArrow,
 		gCommonTextures.rightArrowPressed,
 		gCommonTextures.rightArrowHighlighted,
-		nullptr,
-		""
+		nullptr
 	);
 	
 	mBackButton.init(
+		"Back",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Back"
+		gCommonTextures.buttonBlocked
 	);
 
 	//text
 
 	mPieceColorText.loadFromRenderedText("Piece color ");
 	mBoardColorText.loadFromRenderedText("Board color ");
+
+	InitPos();
 }
 
 void SettingsState::InitPos()

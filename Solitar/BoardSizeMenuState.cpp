@@ -12,19 +12,19 @@ void BoardSizeMenuState::Init()
 	infoText.loadFromRenderedText("Choose board size: ");
 
 	mContinueButton.init(
+		"Continue",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Continue"
+		gCommonTextures.buttonBlocked
 	);
 
 	mBackButton.init(
+		"Back",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Back"
+		gCommonTextures.buttonBlocked
 	);
 
 	mValueSlider.init(MIN_BOARD_SIZE, MAX_BOARD_SIZE);

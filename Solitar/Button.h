@@ -9,11 +9,13 @@ public:
 	Button();
 	~Button();
 
-	void setPos(int x0, int y0, int width, int height) { x = x0; y = y0; bWidth = width; bHeight = height; };
+	void setPos(int x0, int y0, int width, int height) { x = x0; y = y0; bWidth = width; bHeight = height; buttonRect = { x0,y0,width,height }; }
 
 	void init(
-		LTexture* buttonTexture, LTexture* buttonPressedTexture, LTexture* buttonHighlightedTexture, LTexture* buttonBlockedTexture,
-		std::string buttonText = " ", SDL_Color color = SDL_Color{ 255,255,255,255 }
+		std::string buttonText = "",
+		LTexture* buttonTexture = nullptr, LTexture* buttonPressedTexture = nullptr,
+		LTexture* buttonHighlightedTexture = nullptr, LTexture* buttonBlockedTexture = nullptr,
+		SDL_Color color = SDL_Color{ 255,255,255,255 }
 	);
 
 	void setActive(bool active) { bActive = active; }
@@ -32,5 +34,7 @@ protected:
 	LTexture* bPressedTexture = nullptr;
 	LTexture* bHighlightedTexture = nullptr;
 	LTexture* bBlockedTexture = nullptr;
+
+	SDL_Rect buttonRect;
 };
 

@@ -13,34 +13,36 @@ void BoardPiecesMenuState::Init()
 	infoText.loadFromRenderedText("Place pieces on the board (at least one, at least one empty tile)");
 
 	mBackButton.init(
+		"Back",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Back");
+		gCommonTextures.buttonBlocked
+	);
 
 	mEmptyButton.init(
+		"Empty",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Empty"
+		gCommonTextures.buttonBlocked
 	);
 
 	mFillButton.init(
+		"Fill",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Fill"
+		gCommonTextures.buttonBlocked
 	);
 
 	mContinueButton.init(
+		"Start game",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Start game");
+		gCommonTextures.buttonBlocked
+	);
 
 	mContinueButton.setBlocked(true);
 

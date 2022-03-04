@@ -17,41 +17,43 @@ void MenuState::Init()
 
 	//buttons
 	mOnePlayerButton.init(
+		"1 Player",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"1 Player"
+		gCommonTextures.buttonBlocked
 	);
 
 	mTwoPlayerButton.init(
+		"2 Players",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"2 Players"
+		gCommonTextures.buttonBlocked
 	);
 
 	mInstructionsButton.init(
+		"Instructions",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Instructions"
+		gCommonTextures.buttonBlocked
 	);
+
 	mSettingsButton.init(
+		"Settings",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Settings");
+		gCommonTextures.buttonBlocked
+	);
 
 	mExitButton.init(
+		"Quit game",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Quit game"
+		gCommonTextures.buttonBlocked
 	);
 
 	InitPos();

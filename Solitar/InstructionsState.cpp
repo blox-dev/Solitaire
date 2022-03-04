@@ -23,11 +23,11 @@ void InstructionsState::Init()
 	textureNum = 0;
 
 	mBackButton.init(
+		"Back",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Back"
+		gCommonTextures.buttonBlocked
 	);
 
 	InitPos();

@@ -9,7 +9,7 @@ Button::~Button()
 	bText.free();
 }
 
-void Button::init(LTexture* buttonTexture, LTexture* buttonPressedTexture, LTexture* buttonHighlightedTexture, LTexture* buttonBlockedTexture, std::string buttonText, SDL_Color color)
+void Button::init(std::string buttonText, LTexture* buttonTexture, LTexture* buttonPressedTexture, LTexture* buttonHighlightedTexture, LTexture* buttonBlockedTexture, SDL_Color color)
 {
 	//maybe not necessary
 	bActive = true;
@@ -25,12 +25,16 @@ void Button::init(LTexture* buttonTexture, LTexture* buttonPressedTexture, LText
 
 void Button::render()
 {
-	//std::cout << mInputManager->getMouseCoords().x << ',' << mInputManager->getMouseCoords().y << std::endl;
 	if (bActive) {
 		if (bBlocked)
 		{
-			if(bBlockedTexture != nullptr)
+			if (bBlockedTexture != nullptr)
 				bBlockedTexture->render(x, y, bWidth, bHeight);
+			else
+			{
+				SDL_SetRenderDrawColor(gRenderer, 128, 128, 128, 255);
+				SDL_RenderFillRect(gRenderer, &buttonRect);
+			}
 
 			bText.render(x + bWidth / 4, y + bHeight / 3, bWidth / 2, bHeight / 2);
 			return;
@@ -39,16 +43,31 @@ void Button::render()
 		{
 			if (gInputManager.isKeyDown(SDL_BUTTON_LEFT))
 			{
-				bPressedTexture->render(x, y, bWidth, bHeight);
+				if (bPressedTexture != nullptr)
+					bPressedTexture->render(x, y, bWidth, bHeight);
+				else {
+					SDL_SetRenderDrawColor(gRenderer, 122, 211, 83, 255);
+					SDL_RenderFillRect(gRenderer, &buttonRect);
+				}
 				bText.render(x + bWidth / 4, y + bHeight / 3, bWidth / 2, bHeight / 2);
 			}
 			else {
-				bHighlightedTexture->render(x, y, bWidth, bHeight);
+				if (bHighlightedTexture != nullptr)
+					bHighlightedTexture->render(x, y, bWidth, bHeight);
+				else {
+					SDL_SetRenderDrawColor(gRenderer, 140, 225, 96, 255);
+					SDL_RenderFillRect(gRenderer, &buttonRect);
+				}
 				bText.render(x + bWidth / 4, y + bHeight / 4, bWidth / 2, bHeight / 2);
 			}
 		}
 		else {
-			bTexture->render(x, y, bWidth, bHeight);
+			if (bTexture != nullptr)
+				bTexture->render(x, y, bWidth, bHeight);
+			else {
+				SDL_SetRenderDrawColor(gRenderer, 49, 143, 0, 255);
+				SDL_RenderFillRect(gRenderer, &buttonRect);
+			}
 			bText.render(x + bWidth / 4, y + bHeight / 4, bWidth / 2, bHeight / 2);
 		}
 	}

@@ -30,11 +30,11 @@ void PlayGameState::Init()
 	mDrawText.loadFromRenderedText("It's a draw!");
 
 	mBackButton.init(
+		"Main menu",
 		gCommonTextures.button,
 		gCommonTextures.buttonPressed,
 		gCommonTextures.buttonHighlighted,
-		gCommonTextures.buttonBlocked,
-		"Main menu"
+		gCommonTextures.buttonBlocked
 	);
 
 	mBackButton.setActive(false);

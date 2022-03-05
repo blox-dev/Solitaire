@@ -208,10 +208,13 @@ void GameEngine::HandleEvents()
 
 void GameEngine::Update()
 {
-	//update the inputManager
-	gInputManager.update();
 	// let the state update the game
 	states.back()->Update(this);
+
+	//if you switch these two statements, it breaks, not sure why
+
+	//update the inputManager
+	gInputManager.update();
 }
 
 void GameEngine::Draw()

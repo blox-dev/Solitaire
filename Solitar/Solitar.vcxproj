@@ -18,6 +18,41 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoardPiecesMenuState.cpp" />
+    <ClCompile Include="BoardShapeMenuState.cpp" />
+    <ClCompile Include="BoardSizeMenuState.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Errors.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="InstructionsState.cpp" />
+    <ClCompile Include="LTexture.cpp" />
+    <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="PlayGameState.cpp" />
+    <ClCompile Include="SettingsState.cpp" />
+    <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardPiecesMenuState.h" />
+    <ClInclude Include="BoardShapeMenuState.h" />
+    <ClInclude Include="BoardSizeMenuState.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Errors.h" />
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="InstructionsState.h" />
+    <ClInclude Include="LTexture.h" />
+    <ClInclude Include="MenuState.h" />
+    <ClInclude Include="PlayGameState.h" />
+    <ClInclude Include="SettingsState.h" />
+    <ClInclude Include="Slider.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -145,51 +180,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Board.cpp" />
-    <ClCompile Include="BoardPiecesMenuState.cpp" />
-    <ClCompile Include="BoardShapeMenuState.cpp" />
-    <ClCompile Include="BoardSizeMenuState.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="Errors.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GameState.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="InstructionsState.cpp" />
-    <ClCompile Include="LTexture.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="MenuState.cpp" />
-    <ClCompile Include="PlayGameState.cpp" />
-    <ClCompile Include="SettingsState.cpp" />
-    <ClCompile Include="Slider.cpp" />
-    <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Board.h" />
-    <ClInclude Include="BoardPiecesMenuState.h" />
-    <ClInclude Include="BoardShapeMenuState.h" />
-    <ClInclude Include="BoardSizeMenuState.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="Errors.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="GameState.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="InstructionsState.h" />
-    <ClInclude Include="LTexture.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="MenuState.h" />
-    <ClInclude Include="PlayGameState.h" />
-    <ClInclude Include="SettingsState.h" />
-    <ClInclude Include="Slider.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

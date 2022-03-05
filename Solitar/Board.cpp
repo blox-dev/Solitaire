@@ -235,7 +235,7 @@ void Board::update(BoardMode mode)
 		}
 	if (gInputManager.isMouseInBox(x, y, bWidth, bHeight) && gInputManager.wasKeyReleased(SDL_BUTTON_LEFT)) {
 
-		glm::vec2 mouseCoords = gInputManager.getMouseCoords();
+		SDL_Point mouseCoords = gInputManager.getMouseCoords();
 		int row = (mouseCoords.y - y) / (bHeight / mBoardSize);
 		int col = (mouseCoords.x - x) / (bWidth / mBoardSize);
 

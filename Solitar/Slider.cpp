@@ -1,5 +1,4 @@
 #include "Slider.h"
-#include <glm/glm.hpp>
 #include <cmath>
 
 Slider::Slider()
@@ -67,7 +66,7 @@ void Slider::update()
 	//if active
 	if (mDragged)
 	{
-		glm::vec2 mouseCoords = gInputManager.getMouseCoords();
+		SDL_Point mouseCoords = gInputManager.getMouseCoords();
 		if (mouseCoords.x <= x)
 			mValue = minValue;
 		else if (mouseCoords.x >= x + sWidth)

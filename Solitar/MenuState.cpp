@@ -157,7 +157,10 @@ void MenuState::HandleEvents(GameEngine* game)
 			break;
 		}
 	}
+}
 
+void MenuState::Update(GameEngine* game)
+{
 	if (mOnePlayerButton.clicked())
 	{
 		gBoard.setComputerPlaying(true);
@@ -184,11 +187,6 @@ void MenuState::HandleEvents(GameEngine* game)
 	{
 		game->Quit();
 	}
-}
-
-void MenuState::Update(GameEngine* game)
-{
-
 }
 
 void MenuState::Draw(GameEngine* game)

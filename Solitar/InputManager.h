@@ -1,7 +1,7 @@
 #pragma once
-#include <glm/glm.hpp>
 
 #include <unordered_map>
+#include <SDL/SDL.h>
 
 class InputManager
 {
@@ -15,7 +15,7 @@ public:
 	void releaseKey(unsigned int keyID);
 
 	void setMouseCoords(int x, int y);
-	glm::vec2 getMouseCoords() const { return _mouseCoords; };
+	SDL_Point getMouseCoords() const { return _mouseCoords; };
 
 	bool isMouseInBox(int x0, int y0, int width, int height);
 
@@ -33,5 +33,5 @@ private:
 
 	std::unordered_map<unsigned int, bool> _keyMap;
 	std::unordered_map<unsigned int, bool> _previousKeyMap;
-	glm::vec2 _mouseCoords;
+	SDL_Point _mouseCoords;
 };

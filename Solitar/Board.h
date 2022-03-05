@@ -1,5 +1,7 @@
 #pragma once
+
 #include "GameEngine.h"
+#include <SDL/SDL.h>
 
 // looks like a circle
 constexpr int TRIANGLES_PER_CIRCLE = 20;
@@ -65,7 +67,7 @@ private:
 	int mScores[2] = { 0,0 };
 	bool mUpdateScores = false;
 	int mCurrentPlayer = 0;
-	glm::ivec2 mSelectedPiece;
+	SDL_Point mSelectedPiece;
 
 	void clearHighLight();
 

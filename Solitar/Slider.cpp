@@ -13,8 +13,13 @@ Slider::Slider(int min, int max, LTexture* sliderTexture, LTexture* notchTexture
 	maxValue = max;
 	mValue = min;
 
-	sTexture = sliderTexture;
-	sNotchTexture = notchTexture;
+	if (sliderTexture == nullptr)
+		sTexture = new LTexture();
+	else sTexture = sliderTexture;
+
+	if (notchTexture == nullptr)
+		sNotchTexture = new LTexture();
+	else sNotchTexture = notchTexture;
 }
 
 Slider::~Slider()
@@ -87,6 +92,11 @@ void Slider::init(int min, int max, LTexture* sliderTexture, LTexture* notchText
 	maxValue = max;
 	mValue = min;
 
-	sTexture = sliderTexture;
-	sNotchTexture = notchTexture;
+	if (sliderTexture == nullptr)
+		sTexture = new LTexture();
+	else sTexture = sliderTexture;
+
+	if (notchTexture == nullptr)
+		sNotchTexture = new LTexture();
+	else sNotchTexture = notchTexture;
 }

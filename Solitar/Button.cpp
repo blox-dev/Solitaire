@@ -15,10 +15,21 @@ void Button::init(std::string buttonText, LTexture* buttonTexture, LTexture* but
 	bActive = true;
 	bBlocked = false;
 
-	bTexture = buttonTexture;
-	bPressedTexture = buttonPressedTexture;
-	bHighlightedTexture = buttonHighlightedTexture;
-	bBlockedTexture = buttonBlockedTexture;
+	if (buttonTexture == nullptr)
+		bTexture = new LTexture();
+	else bTexture = buttonTexture;
+
+	if (buttonPressedTexture == nullptr)
+		bPressedTexture = new LTexture();
+	else bPressedTexture = buttonPressedTexture;
+
+	if (buttonHighlightedTexture == nullptr)
+		bHighlightedTexture = new LTexture();
+	else bHighlightedTexture = buttonHighlightedTexture;
+
+	if (buttonBlockedTexture == nullptr)
+		bBlockedTexture = new LTexture();
+	else bBlockedTexture = buttonBlockedTexture;
 
 	bText.loadFromRenderedText(buttonText.c_str(), color);
 }

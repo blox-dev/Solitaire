@@ -28,7 +28,7 @@ void Button::render()
 	if (bActive) {
 		if (bBlocked)
 		{
-			if (bBlockedTexture != nullptr)
+			if (bBlockedTexture->isSet())
 				bBlockedTexture->render(x, y, bWidth, bHeight);
 			else
 			{
@@ -43,7 +43,7 @@ void Button::render()
 		{
 			if (gInputManager.isKeyDown(SDL_BUTTON_LEFT))
 			{
-				if (bPressedTexture != nullptr)
+				if (bPressedTexture->isSet())
 					bPressedTexture->render(x, y, bWidth, bHeight);
 				else {
 					SDL_SetRenderDrawColor(gRenderer, 122, 211, 83, 255);
@@ -52,7 +52,7 @@ void Button::render()
 				bText.render(x + bWidth / 4, y + bHeight / 3, bWidth / 2, bHeight / 2);
 			}
 			else {
-				if (bHighlightedTexture != nullptr)
+				if (bHighlightedTexture->isSet())
 					bHighlightedTexture->render(x, y, bWidth, bHeight);
 				else {
 					SDL_SetRenderDrawColor(gRenderer, 140, 225, 96, 255);
@@ -62,7 +62,7 @@ void Button::render()
 			}
 		}
 		else {
-			if (bTexture != nullptr)
+			if (bTexture->isSet())
 				bTexture->render(x, y, bWidth, bHeight);
 			else {
 				SDL_SetRenderDrawColor(gRenderer, 49, 143, 0, 255);

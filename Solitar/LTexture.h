@@ -42,10 +42,11 @@ public:
 	//Renders texture at given point
 	void render(int x0, int y0, int width = 0, int height = 0, SDL_Rect* clip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
+	bool isSet() { return mTexture != nullptr; }
+
 	//Image dimensions
 	int tWidth;
 	int tHeight;
-
 
 protected:
 

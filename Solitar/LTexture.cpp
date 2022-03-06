@@ -32,6 +32,8 @@ bool LTexture::loadFromFile(std::string path)
 	if (loadedSurface == NULL)
 	{
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+		mTexture = nullptr;
+		return false;
 	}
 	else
 	{
@@ -43,6 +45,8 @@ bool LTexture::loadFromFile(std::string path)
 		if (newTexture == NULL)
 		{
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+			mTexture = nullptr;
+			return false;
 		}
 		else
 		{

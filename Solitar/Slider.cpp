@@ -25,7 +25,7 @@ void Slider::render()
 {
 	if (mActive)
 	{
-		if (sTexture != nullptr)
+		if (sTexture->isSet())
 			sTexture->render(x, y, sWidth, sHeight);
 		else {
 			//draw simple grey rectangle
@@ -38,7 +38,7 @@ void Slider::render()
 		// notch center
 		int centerX = ((float)(mValue - minValue) / (maxValue - minValue)) * sWidth + x;
 
-		if (sNotchTexture != nullptr)
+		if (sNotchTexture->isSet())
 			sNotchTexture->render(centerX - 5, y, 10, sHeight);
 		else {
 			//with lighter grey notch on it

@@ -9,11 +9,9 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
 project(Solitaire VERSION 1.0)
 
 # Source files
-
 add_executable(
     ${PROJECT_NAME}
 
@@ -38,12 +36,9 @@ add_executable(
 )
 
 # Project include
-
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 
 # Dependencies
-
-
 # Include files
 target_include_directories(${PROJECT_NAME} PUBLIC deps/include)
 
@@ -56,25 +51,29 @@ find_library(MIXER SDL2.lib REQUIRED PATHS deps/lib)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${SDL2} ${SDL2M} ${IMAGE} ${TTF} ${MIXER})
 
-# Copy dlls into debug/release folder after building the proj
-
+# Copy DLLs into the correct folder (either Debug or Release) for Ninja builds
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   ${CMAKE_SOURCE_DIR}/deps/dll ${CMAKE_BINARY_DIR}/Release)
+                   ${CMAKE_SOURCE_DIR}/deps/dll 
+                   ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 
-
+# Copy DLLs in build folder for non-IDE builds
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   ${CMAKE_SOURCE_DIR}/deps/dll ${CMAKE_BINARY_DIR}/Debug)
+                   ${CMAKE_SOURCE_DIR}/deps/dll 
+                   ${CMAKE_BINARY_DIR})
 
 # Copy fonts folder
-
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                    ${CMAKE_SOURCE_DIR}/fonts ${CMAKE_BINARY_DIR}/fonts)
 
 # Copy textures folder
-
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                    ${CMAKE_SOURCE_DIR}/textures ${CMAKE_BINARY_DIR}/textures)
+
+# Set the PATH to include the DLL directory for runtime (for IDE like Visual Studio)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    VS_DEBUGGER_ENVIRONMENT "PATH=$<TARGET_FILE_DIR:${PROJECT_NAME}>;$ENV{PATH}"
+)

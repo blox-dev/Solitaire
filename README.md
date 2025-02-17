@@ -11,6 +11,10 @@ The objective of the game is to start with a full board, leaving only one peg in
 - A move is valid if a peg jumps over an adjacent peg into an empty hole.
 - The game ends when only one peg remains in the central hole.
 
+## 🎥 Demo
+
+https://github.com/user-attachments/assets/057edee7-1329-4e50-a276-d32e6dd0f1d1
+
 ## 🚀 Getting Started
 
 Follow the instructions below to get this project up and running on your local machine.

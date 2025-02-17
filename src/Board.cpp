@@ -1,5 +1,5 @@
 #include "Board.h"
-#include <math.h>
+#include <cmath>
 
 Board::Board()
 {
@@ -138,8 +138,8 @@ void Board::drawPieces()
 		int cellWidth = bWidth / mBoardSize;
 		int cellHeight = bHeight / mBoardSize;
 
-		float radiusx = cellWidth / 3.0f;
-		float radiusy = cellHeight / 3.0f;
+		double radiusx = cellWidth / 3.0;
+		double radiusy = cellHeight / 3.0;
 
 		for (int row = 0; row < mBoardSize; ++row)
 			for (int col = 0; col < mBoardSize; ++col)
@@ -160,7 +160,7 @@ void Board::drawPieces()
 					{
 						float theta = double_pi * (pieceVertexId - 1) / TRIANGLES_PER_CIRCLE;
 
-						mPieceVertices[pieceVertexId].position = { radiusx * cos(theta) + cx, radiusy * sin(theta) + cy };
+						mPieceVertices[pieceVertexId].position = { static_cast<float>(radiusx * cos(theta)) + cx, static_cast<float>(radiusy * sin(theta)) + cy };
 						mPieceVertices[pieceVertexId].color = gPieceColor;
 
 						pieceVertexId++;

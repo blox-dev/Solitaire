@@ -2,6 +2,7 @@
 
 #include "GameEngine.h"
 #include <SDL/SDL.h>
+#include <cmath>
 
 // looks like a circle
 constexpr int TRIANGLES_PER_CIRCLE = 20;

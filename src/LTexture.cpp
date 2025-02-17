@@ -2,6 +2,7 @@
 
 #include "Errors.h"
 #include "GameEngine.h"
+#include <cmath>
 
 //Context* LTexture::mSharedContext = nullptr;
 
@@ -137,7 +138,7 @@ void LTexture::setAlpha(Uint8 alpha)
 void LTexture::render(int x0, int y0, float scale, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
 {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x0, y0, tWidth * scale, tHeight * scale };
+	SDL_Rect renderQuad = { x0, y0, int(lroundf(tWidth * scale)), int(lroundf(tHeight * scale)) };
 
 	//Set clip rendering dimensions
 	if (clip != NULL)

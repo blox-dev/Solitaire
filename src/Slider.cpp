@@ -34,7 +34,7 @@ void Slider::render()
 			sTexture->render(x, y, sWidth, sHeight);
 		else {
 			//draw simple grey rectangle
-			SDL_Rect slider = { x, y + sHeight * 0.4, sWidth, sHeight * 0.2 };
+			SDL_Rect slider = { x, y + int(lroundf(sHeight * 0.4)), sWidth, int(lroundf(sHeight * 0.2)) };
 
 			SDL_SetRenderDrawColor(gRenderer, 128, 128, 128, 255);
 			SDL_RenderFillRect(gRenderer, &slider);
